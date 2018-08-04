@@ -1,0 +1,175 @@
+#!/usr/bin/env nodejs
+
+/* Author: Frédéric Jolliton */
+/* Copyright 2018 */
+/* GNU General Public License v3 */
+
+/*
+ * Installation
+ * ------------
+ *
+ * Create a ~/js directory, then:
+ *
+ *     cd ~/js
+ *     echo '{}' > packages.json
+ *     yarn add classnames commonmark d3 immutable jsdom moment react react-dom rxjs
+ *
+ * Obviously you can customize the list of packages. Don't forget to
+ * add new ones to MODULES.
+ */
+
+
+const os = require('os');
+const fs = require('fs');
+const path = require('path');
+const repl = require('repl');
+
+const HOME = os.homedir();
+const ROOT = path.join(HOME, 'js');
+
+process.chdir(ROOT);
+module.paths = [ROOT + "/node_modules"];
+
+// Modules to load on start
+const MODULES = [
+    // Native
+    {name: 'fs'},
+    {name: 'path'},
+    // Extra
+    {name: 'classnames', alias: 'classNames'},
+    {name: 'commonmark', alias: 'CM'},
+    {name: 'd3'},
+    {name: 'immutable', alias: 'I'},
+    {name: 'jsdom'},
+    {name: 'moment'},
+    {name: 'react', alias: 'React'},
+    {name: 'react-dom', alias: 'ReactDOM'},
+    {name: 'rxjs', alias: 'Rx'},
+    {name: 'rxjs/operators', alias: 'Op'}
+];
+
+let NODE_REPL_HISTORY;
+
+if ('NODE_REPL_HISTORY' in process.env) {
+    NODE_REPL_HISTORY = process.env['NODE_REPL_HISTORY'];
+} else if ('HOME' in process.env) {
+    NODE_REPL_HISTORY = path.join(process.env['HOME'], '.node_repl_history');
+} else {
+    NODE_REPL_HISTORY = null;
+}
+
+if (NODE_REPL_HISTORY) {
+    console.log('History file:', NODE_REPL_HISTORY);
+} else {
+    console.log('Disabled history file (neither HOME nor NODE_REPL_HISTORY are defined.')
+}
+
+// Manage the history
+function load_history(path) {
+    try {
+        return fs.readFileSync(path, 'utf-8').split('\n');
+    } catch (e) {
+        return [];
+    }
+}
+
+function extend_history(path, lines) {
+    const new_lines = lines.reverse();
+    if (new_lines.length) {
+        const lines = [...new_lines, ...load_history(path)];
+        fs.writeFileSync(path, lines.join('\n'));
+    }
+}
+
+// Load the modules and print a summary
+function preloadModules(modules, ctx) {
+    const errors = [];
+    console.log();
+    console.log('Preloading modules:')
+    modules.forEach(m => {
+        try {
+            m.module = require(m.name);
+        } catch (e) {
+            errors.push({name: m.name, error: e});
+            return;
+        }
+        console.log(!m.alias ? ` - ${m.name}` : ` - ${m.name} (${m.alias})`);
+        if (!m.name.match(/[-\/]/)) {
+            ctx[m.name] = m.module;
+        }
+        if (m.alias) {
+            ctx[m.alias] = m.module;
+        }
+    });
+    if (errors.length) {
+        console.error('Failed to load:', errors.map(item => `${item.name} (${item.error.code})`).join(', '));
+        const ref = errors.length===1 ? 'it' : 'them';
+        console.error(`  Add ${ref} with npm or yarn, or remove ${ref} from MODULES`);
+    }
+}
+
+function addUtilities(ctx) {
+    const utilities = [];
+
+    // As a convenience, provide a fictive `document` DOM.
+    if (ctx.jsdom) {
+        if (ctx.jsdom.jsdom) {
+            console.error('ERROR: Old version of jsdom. Please upgrade it.');
+        } else {
+            ctx.window = (new ctx.jsdom.JSDOM).window;
+            ctx.document = ctx.window.document;
+            utilities.push('window, document: a jsdom instance');
+        }
+    }
+
+    if (ctx.Rx && ctx.Op) {
+        function watch(observable, prefix='Observable') {
+            observable.subscribe(v => console.log(`${prefix}: VALUE ${v}`),
+                                 e => console.log(`${prefix}: ERROR ${e}`),
+                                 () => console.log(`${prefix}: COMPLETED`));
+            return observable;
+        }
+        ctx.watch = watch;
+        utilities.push('watch(<observable>[, <prefix>]): subscribe to a RxJS observable with a generic logger');
+    }
+
+    ctx.$ = undefined;
+    utilities.push('$: variable with undefined value ("doThat(x); $" will prevent output)');
+
+    if (utilities.length) {
+        console.log();
+        console.log('Utility context:');
+        utilities.forEach(desc => console.log(` - ${desc}`));
+    }
+}
+
+const CTX = {};
+
+preloadModules(MODULES, CTX);
+
+addUtilities(CTX);
+
+// -----------------------------------------------------------------------------
+// From now on, we shouldn't log to console, because the prompt is
+// displayed.
+// -----------------------------------------------------------------------------
+
+// Setup the REPL
+console.log();
+console.log('Ready');
+
+const REPL = repl.start({
+    ignoreUndefined: true
+});
+
+Object.assign(REPL.context, CTX);
+
+if (NODE_REPL_HISTORY) {
+    REPL.history = load_history(NODE_REPL_HISTORY);
+}
+
+process.on('exit', () => {
+    if (NODE_REPL_HISTORY) {
+        extend_history(NODE_REPL_HISTORY, REPL.lines.filter(line => line.trim()));
+    }
+});

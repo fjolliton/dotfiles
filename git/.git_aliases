@@ -1,0 +1,78 @@
+# Git aliases and functions
+
+# Used often
+alias gst="git status -s"
+alias gdf="git diff"
+alias gdc="git diff --cached"
+alias gap="git add -p"
+alias gcp="git checkout -p"
+alias gcm="git commit -m"
+alias gca="git commit --amend"
+alias gba="git branch -avv"
+alias glg="git log --graph --oneline --boundary --cherry-mark --pretty=format:'%C(yellow)%h%Creset%C(auto)%d%Creset %s %C(bold black)[%an]%Creset'"
+alias gcb="git checkout -b"
+alias grs="git rebase -i --autosquash"
+alias grv="git remote -v"
+alias gfp='git fetch --tags -p'
+
+# Rarely used
+alias gcn="git commit --amend --no-edit"
+alias gml="git merge --no-ff --log"
+alias gad="git diff --cached HEAD~" # Git Amend Diff
+alias gll="glg HEAD@{1}...HEAD@{0}"
+
+function grh {
+    if [ "$#" -ne 1 ]; then echo "Usage: grh BRANCH"; return 1; fi
+    git reset --hard "$1"
+}
+
+function gcs {
+    PATTERN="$1"
+    shift
+    git commit --squash ":/$PATTERN" "$@"
+}
+
+function gce {
+    COMMENT="$1"
+    shift
+    git commit -t <(echo "$COMMENT") "$@"
+}
+
+function glr {
+    REF=""
+    case "$1" in
+      -*)
+        ;;
+      *) # assume a reference
+        REF="$1"
+        shift
+        ;;
+    esac
+    BRANCH="${REF:-$(git symbolic-ref HEAD)}"
+    case "$BRANCH" in
+      refs/heads/*)
+        BRANCH="${BRANCH#refs/heads/}"
+        ;;
+    esac
+    glg "remotes/origin/${BRANCH}...${BRANCH}" "$@"
+}
+
+function gdr {
+    REF=""
+    case "$1" in
+      -*)
+        ;;
+      *) # assume a reference
+        REF="$1"
+        shift
+        ;;
+    esac
+    BRANCH="${REF:-$(git symbolic-ref HEAD)}"
+    case "$BRANCH" in
+      refs/heads/*)
+        BRANCH="${BRANCH#refs/heads/}"
+        ;;
+    esac
+    git diff "remotes/origin/${BRANCH}" "${BRANCH}" "$@"
+}
+

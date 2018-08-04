@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# List all tmux instances, sessions and windows
+
+cd /tmp/tmux-$(id -u)/ && for name in *; do
+  echo "Socket: $name"
+  tmux -L "$name" list-sessions|while read line; do
+    echo "  $line"
+    SESSION=${line/:*/}
+    tmux -L "$name" list-windows -t "$SESSION"|while read line; do echo "    $line"; done
+    tmux -L "$name" list-clients -t "$SESSION"|while read line; do echo "    ~ $line"; done
+  done
+done

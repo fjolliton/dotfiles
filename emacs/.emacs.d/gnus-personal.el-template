@@ -1,0 +1,8 @@
+(setq gnus-secondary-select-methods
+      '((nnimap "imap.isp"
+                (nnimap-address "imap.example.org")
+                (nnimap-server-port 993)
+                (nnimap-stream ssl)
+                (nnimap-authinfo-file "~/.authinfo.gpg"))))
+
+(setq gnus-posting-styles nil)

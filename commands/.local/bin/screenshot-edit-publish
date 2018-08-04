@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -eux
+
+# Override LOCAL_WWW and URL in ~/.screenshot
+. ~/.screenshot || true
+
+LOCAL_WWW=${LOCAL_WWW:-/var/www/default/htdocs/}
+URL=${URL:-http://localhost/}
+TMP=~/Documents/Screenshots/tmp/$$.png
+NAME=screen-$(date +%s).png
+TARGET=${LOCAL_WWW}/${NAME}
+
+mkdir -p "$(dirname "$TMP")"
+import -window root "$TMP"
+gimp "$TMP"
+mv "$TMP" "$TARGET"
+exec urxvt -e sh -c "echo \"${URL}${NAME}\"; sleep 3600"

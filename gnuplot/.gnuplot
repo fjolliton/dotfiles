@@ -1,0 +1,3 @@
+max(a,b) = a>b?a:b
+min(a,b) = a<b?a:b
+

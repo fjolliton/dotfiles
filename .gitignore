@@ -1,0 +1,21 @@
+# Unpublished parts (see *-template files)
+/emacs/.emacs.d/gnus-personal.el
+/emacs/.emacs.d/mail-personal.el
+
+# Emacs is going to put files there when installing packages
+/emacs/.emacs.d/auto-save-list/
+/emacs/.emacs.d/elpa/
+/emacs/.emacs.d/network-security.data
+/emacs/.emacs.d/tramp
+/emacs/.emacs.d/opam-user-setup.el
+/emacs/.emacs.d/semanticdb/
+/emacs/.emacs.d/projectile-bookmarks.eld
+
+# Emacs backup files
+*~
+
+# XMonad
+/xmonad/.xmonad/xmonad-x86_64-linux
+/xmonad/.xmonad/xmonad.errors
+/xmonad/.xmonad/xmonad.hi
+/xmonad/.xmonad/xmonad.o

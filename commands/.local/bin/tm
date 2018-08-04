@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Create or attach to a tumx instance
+
+tmux -L "$1" attach || tmux -L "$1"

@@ -1,0 +1,55 @@
+! The cursor is too big by default
+Xcursor.size: 16
+
+! -- Emacs ---------------------------------------------------------------------
+
+! By setting it here we prevent Emacs to display toolbar while loading
+! (before it turns it off when processing init.el)
+Emacs.toolBar: 0
+
+! -- urxvt ---------------------------------------------------------------------
+
+! Disable ISO 14755 input method
+urxvt.iso14755:    false
+urxvt.iso14755_52: false
+
+! Keys to resize font
+urxvt.perl-ext-common: font-size
+urxvt.keysym.C-Escape: font-size:reset
+urxvt.keysym.C-Up:     font-size:increase
+urxvt.keysym.C-Down:   font-size:decrease
+
+urxvt*font:\
+  xft:Inconsolata:pixelsize=21,\
+  xft:Fixed
+
+! Styles
+urxvt*fading: 25
+urxvt*scrollBar: false
+urxvt*internalBorder: 3
+
+! Colors
+urxvt*cursorColor: #aaaaaa
+urxvt*foreground: #eeeeee
+urxvt*background: #161616
+
+! "Tango" color theme
+urxvt*color0:  #2e3436
+urxvt*color1:  #cc0000
+urxvt*color2:  #4e9a06
+urxvt*color3:  #c4a000
+urxvt*color4:  #3465a4
+urxvt*color5:  #75507b
+urxvt*color6:  #06989a
+urxvt*color7:  #d3d7cf
+urxvt*color8:  #555753
+urxvt*color9:  #ef2929
+urxvt*color10: #8ae234
+urxvt*color11: #fce94f
+urxvt*color12: #729fcf
+urxvt*color13: #ad7fa8
+urxvt*color14: #34e2e2
+urxvt*color15: #eeeeec
+
+! Other
+urxvt*saveLines: 10000

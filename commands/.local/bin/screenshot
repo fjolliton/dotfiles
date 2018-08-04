@@ -1,0 +1,5 @@
+#!/bin/sh
+
+TARGET=~/Documents/Screenshots/"$(date -u "+%FT%T.%NZ")".png
+mkdir -p "$(dirname "$TARGET")"
+exec import -window root "$TARGET"

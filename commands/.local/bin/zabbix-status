@@ -1,0 +1,129 @@
+#!/usr/bin/env python3
+
+"""
+Check a Zabbix server for the most severe trigger.
+
+This is used by xmobar.
+"""
+
+__author__ = 'Frédéric Jolliton'
+__copyright__ = 'Copyright (c) 2018'
+__license__ = 'GNU General Public License v3'
+
+import os
+import sys
+import json
+import http.client
+
+NAMES = {
+    None: 'OK',
+    0: 'NC',
+    1: 'INFO',
+    2: 'WARN',
+    3: 'AVG',
+    4: 'HIGH',
+    5: 'DISASTER'
+}
+
+COLORS = {
+    None: '#3b3',  # no trigger
+    0:    '#099',  # not classified
+    1:    '#39f',  # information
+    2:    '#f50',  # warning
+    3:    '#ff0',  # average
+    4:    '#f0f',  # high
+    5:    '#f00'   # disaster
+}
+
+DECORATION = {
+    4: '■■■ {} ■■■',
+    5: '■■■ {} ■■■'
+}
+
+if len(sys.argv) <= 1:
+    INFO_FILENAME = os.path.expanduser('~/.zabbix')
+elif len(sys.argv) == 2:
+    INFO_FILENAME = sys.argv[1]
+else:
+    raise SystemExit('Usage: zabbix-status [config]')
+
+try:
+    with open(INFO_FILENAME) as f:
+        INFO = json.load(f)
+except FileNotFoundError:
+    print(f'{INFO_FILENAME!r} configuration file missing.')
+    print('''
+It should have the following structure:
+
+{
+  "host": "zabbix.example.org",
+  "user": "monitoring",
+  "password": "thepasswordfortheapi"
+}''')
+    sys.exit(1)
+
+
+def zabbix_call(method, *, params=None, auth=None):
+    """
+    Call Zabbix API.
+
+    :param method: the method to call
+    :param params: the method parameters
+    :param auth: the token obtained from `user.login`
+
+    :returns: the response of the API call
+    """
+    if params is None:
+        params = {}
+    conn = http.client.HTTPSConnection(INFO['host'])
+    headers = {
+        'Content-Type': 'application/json-rpc'
+    }
+    payload = json.dumps({
+        'jsonrpc': '2.0',
+        'id': '1',
+        'method': method,
+        'params': params,
+        'auth': auth
+    })
+    conn.request('POST', '/api_jsonrpc.php', payload, headers)
+    res = conn.getresponse()
+    assert res.status == 200, (res.status, res.reason)
+    data = json.load(res)
+    assert 'result' in data, data
+    return data['result']
+
+
+def worst_severity():
+    """
+    Get the current most severe Zabbix trigger.
+    """
+    token = zabbix_call('user.login', params={
+        'user': INFO['user'],
+        'password': INFO['password']
+    })
+    try:
+        triggers = zabbix_call('trigger.get', auth=token, params={
+            'output': 'extend',
+            'filter': {'value': 1, 'status': 0},
+            'withUnacknowledgedEvents': True,
+            'monitored': True,
+            'sortfield': 'priority',
+            'sortorder': 'DESC',
+            'limit': 1
+        })
+        if triggers:
+            return int(triggers[0]['priority'])
+    finally:
+        zabbix_call('user.logout', auth=token)
+
+
+def main():
+    s = worst_severity()
+    name = NAMES.get(s, str(s))
+    name = DECORATION.get(s, '{}').format(name)
+    print('<fc={}>{}</fc>'.format(COLORS[s], name))
+
+
+if __name__ == '__main__':
+    main()

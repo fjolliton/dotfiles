@@ -16,6 +16,8 @@
     markdown-mode
     merlin-eldoc
     neotree
+    which-key
+    projectile
     reason-mode)
   "The list of packages to be present at start up")
 

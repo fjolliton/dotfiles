@@ -75,6 +75,7 @@
 (global-set-key (kbd "A-<left>") 'tuxee-shift-left)
 (global-set-key (kbd "A-<right>") 'tuxee-shift-right)
 (global-set-key (kbd "<f12>") 'magit-blame)
+(global-set-key (kbd "C-<f12>") 'magit-log)
 (global-set-key (kbd "A-6") 'delete-indentation) ; Because M-6 (aka M-^) conflicts with XMonad
 (global-set-key (kbd "A-<f12>") 'tuxee-prez)
 (global-set-key (kbd "<f8>") 'neotree-toggle)

@@ -11,14 +11,15 @@
     haskell-mode
     htmlize
     lsp-mode
-    lsp-ui
     lsp-ocaml
+    lsp-ui
+    magit
     markdown-mode
     merlin-eldoc
     neotree
-    which-key
     projectile
-    reason-mode)
+    reason-mode
+    which-key)
   "The list of packages to be present at start up")
 
 ;;; Up to Emacs 25, there is no package--initialized, and we should do

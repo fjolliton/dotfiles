@@ -11,7 +11,7 @@
  * Create a ~/js directory, then:
  *
  *     cd ~/js
- *     echo '{}' > packages.json
+ *     echo '{}' > package.json
  *     yarn add classnames commonmark d3 immutable jsdom moment react react-dom rxjs
  *
  * Obviously you can customize the list of packages. Don't forget to

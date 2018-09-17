@@ -3,9 +3,11 @@ Xcursor.size: 16
 
 ! -- Emacs ---------------------------------------------------------------------
 
-! By setting it here we prevent Emacs to display toolbar while loading
-! (before it turns it off when processing init.el)
+! Try to be close to the custom theme, so that nothing flash at startup.
+Emacs.background: #1a1a1a
+Emacs.foreground: white
 Emacs.toolBar: 0
+Emacs.menuBar: 0
 
 ! -- urxvt ---------------------------------------------------------------------
 

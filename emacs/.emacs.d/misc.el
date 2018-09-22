@@ -65,20 +65,23 @@
                                 tuxee-prez-face-height)))
 
 ;;; Extra bindings
-(global-set-key (kbd "A-c") 'ace-jump-mode)
-(global-set-key (kbd "C-c C-a") 'align-regexp)
-(global-set-key (kbd "C-<tab>") 'other-window)
-(global-set-key (kbd "<f6>") 'kill-this-buffer)
-(global-set-key (kbd "<f11>") 'whitespace-mode)
 (global-set-key (kbd "<mouse-6>") 'scroll-right)
 (global-set-key (kbd "<mouse-7>") 'scroll-left)
-(global-set-key (kbd "C-<return>") 'tuxee-toggle-selective-display)
-(global-set-key (kbd "A-<up>") 'tuxee-move-line-up)
+
+(global-set-key (kbd "A-6") 'delete-indentation) ; Because M-6 (aka M-^) conflicts with XMonad
 (global-set-key (kbd "A-<down>") 'tuxee-move-line-down)
 (global-set-key (kbd "A-<left>") 'tuxee-shift-left)
 (global-set-key (kbd "A-<right>") 'tuxee-shift-right)
-(global-set-key (kbd "<f12>") 'magit-blame)
-(global-set-key (kbd "C-<f12>") 'magit-log)
-(global-set-key (kbd "A-6") 'delete-indentation) ; Because M-6 (aka M-^) conflicts with XMonad
-(global-set-key (kbd "A-<f12>") 'tuxee-prez)
+(global-set-key (kbd "A-<up>") 'tuxee-move-line-up)
+(global-set-key (kbd "A-c") 'ace-jump-mode)
+(global-set-key (kbd "C-<return>") 'tuxee-toggle-selective-display)
+(global-set-key (kbd "C-<tab>") 'other-window)
+(global-set-key (kbd "C-c C-a") 'align-regexp)
+
+(global-set-key (kbd "<f6>") 'kill-this-buffer)
 (global-set-key (kbd "<f8>") 'neotree-toggle)
+(global-set-key (kbd "<f11>") 'whitespace-mode)
+(global-set-key (kbd "C-<f11>") 'whitespace-cleanup)
+(global-set-key (kbd "<f12>") 'magit-blame)
+(global-set-key (kbd "A-<f12>") 'tuxee-prez)
+(global-set-key (kbd "C-<f12>") 'magit-log)

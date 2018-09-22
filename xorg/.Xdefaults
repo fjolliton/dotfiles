@@ -8,6 +8,7 @@ Emacs.background: #1a1a1a
 Emacs.foreground: white
 Emacs.toolBar: 0
 Emacs.menuBar: 0
+Emacs.scrollBarWidth: 0
 
 ! -- urxvt ---------------------------------------------------------------------
 

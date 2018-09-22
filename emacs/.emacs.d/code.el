@@ -35,7 +35,8 @@
 
 (defun tuxee-extend-exec-path-for-python ()
   "Extend EXEC-PATH for a Python buffer."
-  (tuxee-smart-exec-path "bin/activate" "bin"))
+  (or (tuxee-smart-exec-path "bin/activate" "bin")
+      (tuxee-smart-exec-path "venv/bin/activate" "venv/bin")))
 
 (add-hook 'js-mode-hook 'tuxee-extend-exec-path-for-javascript)
 (add-hook 'reason-mode-hook 'tuxee-extend-exec-path-for-javascript)

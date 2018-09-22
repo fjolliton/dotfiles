@@ -1,4 +1,4 @@
-;;;; Other things that should probably be categorized.
+;;; Other things that should probably be categorized.
 
 (which-key-mode)
 
@@ -13,6 +13,7 @@
 (setq dired-dwim-target t)
 
 (defun tuxee-move-line-up ()
+  "Move the current line above the previous one."
   (interactive)
   (let ((col (current-column)))
     (transpose-lines 1)
@@ -20,6 +21,7 @@
     (forward-char col)))
 
 (defun tuxee-move-line-down ()
+  "Move the current line below the next one."
   (interactive)
   (let ((col (current-column)))
     (forward-line 1)
@@ -28,17 +30,21 @@
     (forward-char col)))
 
 (defun tuxee-toggle-selective-display ()
+  "Toggle selective display."
   (interactive)
   (set-selective-display (if selective-display nil 1)))
 
 (defun tuxee-shift (amount)
+  "Shift text by AMOUNT characters."
   (indent-rigidly (mark) (point) amount))
 
 (defun tuxee-shift-left (arg)
+  "Shift text to the left by ARG characters."
   (interactive "P")
   (tuxee-shift (- (or arg c-basic-offset))))
 
 (defun tuxee-shift-right (arg)
+  "Shift text to the right by ARG characters."
   (interactive "P")
   (tuxee-shift (or arg c-basic-offset)))
 
@@ -49,6 +55,7 @@
 (defvar tuxee-prez-face-height 220)
 
 (defun tuxee-prez ()
+  "Toggle between two font sizes."
   (interactive)
   (unless tuxee-default-face-height
     (setq tuxee-default-face-height (face-attribute 'default :height)))

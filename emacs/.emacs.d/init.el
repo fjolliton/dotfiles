@@ -15,6 +15,7 @@
     "python.el"
     "javascript.el"
     "magit.el"
+    "projectile.el"
     "code.el"
     "misc.el"
     "postlude.el")

@@ -64,6 +64,12 @@
                                   tuxee-default-face-height
                                 tuxee-prez-face-height)))
 
+(defun tuxee-toggle-explicit-lines ()
+  (interactive)
+  (let ((mode (if global-display-line-numbers-mode 0 nil)))
+    (global-display-line-numbers-mode mode)
+    (global-hl-line-mode mode)))
+
 ;;; Extra bindings
 (global-set-key (kbd "<mouse-6>") 'scroll-right)
 (global-set-key (kbd "<mouse-7>") 'scroll-left)
@@ -80,6 +86,7 @@
 
 (global-set-key (kbd "<f6>") 'kill-this-buffer)
 (global-set-key (kbd "<f8>") 'neotree-toggle)
+(global-set-key (kbd "<f9>") 'tuxee-toggle-explicit-lines)
 (global-set-key (kbd "<f11>") 'whitespace-mode)
 (global-set-key (kbd "C-<f11>") 'whitespace-cleanup)
 (global-set-key (kbd "<f12>") 'magit-blame)

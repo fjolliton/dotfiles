@@ -73,6 +73,8 @@ def loop(ns):
 
     lasts = None
 
+    witness_warning_printed = False
+
     while True:
         currents = {}
         for name in ns.watch:
@@ -81,9 +83,13 @@ def loop(ns):
             except FileNotFoundError:
                 pass
         if not currents:
-            print(time.ctime(), 'Witness files missing. Waiting for at least one.')
+            if not witness_warning_printed:
+                print(time.ctime(), 'Witness files missing. Waiting for one.')
+                witness_warning_printed = True
             time.sleep(1)
             continue
+
+        witness_warning_printed = False
 
         if currents != lasts:
             if ns.clear:

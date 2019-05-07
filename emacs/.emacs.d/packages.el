@@ -2,7 +2,6 @@
 (defvar default-packages
   '(ace-jump-mode
     bbdb
-    color-theme
     company
     company-lsp
     flycheck

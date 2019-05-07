@@ -1,6 +1,6 @@
 ;;;; FIXME: Rename to appearance.el?
 
-(color-theme-tuxee)
+(enable-theme 'tuxee)
 
 ;;; Remove visual noise
 (menu-bar-mode -1) ;; Note: C-mouse-3 to access the menu

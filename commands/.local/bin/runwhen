@@ -77,7 +77,7 @@ def loop(ns):
 
     while True:
         currents = {}
-        for name in ns.watch:
+        for name in ns.watch or ():
             try:
                 currents[name] = os.stat(name).st_mtime
             except FileNotFoundError:
@@ -113,8 +113,8 @@ def loop(ns):
                 process_terminated(proc)
                 proc = None
                 retry = 1
-                if ns.wait is not None:
-                    time.sleep(ns.wait)
+                if ns.delay is not None:
+                    time.sleep(ns.delay)
             proc = start()
             if not ns.terminate:
                 proc.communicate()

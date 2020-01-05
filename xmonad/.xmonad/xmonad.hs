@@ -19,6 +19,7 @@ import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.SetWMName
 import XMonad.Util.Run
+import XMonad.Actions.SwapWorkspaces
 
 import qualified XMonad.StackSet as W
 
@@ -44,7 +45,7 @@ myPP = xmobarPP {
 
 myExtraWorkspaces = [(xK_0, "0")]
 
-myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"] ++ (map snd myExtraWorkspaces)
+myWorkspaces = [(xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5"), (xK_6, "6"), (xK_7, "7"), (xK_8, "8"), (xK_9, "9")] ++ myExtraWorkspaces
 
 -- Replace all keys 'ks' with modSrc to modDst
 changeModifiers :: M.Map (KeyMask, KeySym) (X ()) -> [KeySym] -> KeyMask -> KeyMask -> M.Map (KeyMask, KeySym) (X ())
@@ -88,7 +89,8 @@ myKeys XConfig { modMask = modm } = M.fromList $
     , ((mod2Mask .|. shiftMask, xK_F12), safeSpawn "screenshot-edit-publish" [])
     ] ++ [((mod2Mask, key), (windows $ W.greedyView ws)) | (key,ws) <- myExtraWorkspaces
     ] ++ [((mod2Mask .|. shiftMask, key), (windows $ W.shift ws)) | (key,ws) <- myExtraWorkspaces
-    ]
+    ] ++ [((mod2Mask .|. controlMask, k), windows $ swapWithCurrent i)
+          | (k, i) <- myWorkspaces]
 
 windowGap :: Int
 windowGap = 2
@@ -116,7 +118,7 @@ myConfig = defaultConfig {
   , clickJustFocuses = False
   , keys = \conf -> myKeys conf `M.union` alterKeys (keys defaultConfig conf)
   , startupHook = setWMName "LG3D"
-  , workspaces = myWorkspaces
+  , workspaces = map snd myWorkspaces
   , layoutHook = myLayout
 }
 

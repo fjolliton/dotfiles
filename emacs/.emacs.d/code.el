@@ -9,7 +9,7 @@
 (add-hook 'reason-mode-hook 'tuxee-setup-reason)
 
 (defun tuxee-find-base (path name)
-  "Search an ancestor of PATH that contain NAME."
+  "Find the first ancestor of PATH containing a file named NAME."
   (if (file-exists-p (concat (file-name-as-directory path) name))
       path
     (let ((parent (file-name-directory (directory-file-name path))))

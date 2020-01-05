@@ -18,7 +18,8 @@
     "projectile.el"
     "code.el"
     "misc.el"
-    "postlude.el")
+    "postlude.el"
+  )
   "Initial files to load on start up")
 
 (dolist (file tuxee-files)

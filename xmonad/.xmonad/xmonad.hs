@@ -84,9 +84,10 @@ myKeys XConfig { modMask = modm } = M.fromList $
     , ((mod2Mask .|. shiftMask, xK_Down), windows W.swapDown)
 
       -- Left Alt key (mod1)
-    , ((mod1Mask .|. controlMask, xK_Left), safeSpawn "xrandr" ["--output", leftMonitor, "--auto", "--output", rightMonitor, "--off"])
-    , ((mod1Mask .|. controlMask, xK_Right), safeSpawn "xrandr" ["--output", leftMonitor, "--off", "--output", rightMonitor, "--auto"])
-    , ((mod1Mask .|. controlMask, xK_Down), safeSpawn "xrandr" ["--output", leftMonitor, "--auto", "--output", rightMonitor, "--auto", "--right-of", leftMonitor])
+    , ((mod1Mask .|. controlMask, xK_Left), safeSpawn "screencontrol" ["toggle-right"])
+    , ((mod1Mask .|. controlMask, xK_Right), safeSpawn "screencontrol" ["toggle-left"])
+    , ((mod1Mask .|. controlMask, xK_Down), safeSpawn "screencontrol" ["toggle-scale"])
+    , ((mod1Mask .|. controlMask, xK_Up), safeSpawn "screencontrol" ["reset"])
 
       -- Left Windows key (mod2)
     , ((mod2Mask, xK_F12), safeSpawn "screenshot" [])

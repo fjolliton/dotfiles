@@ -1,0 +1,143 @@
+#!/usr/bin/env python3
+
+import sys
+import re
+import subprocess
+import argparse
+import pipes
+import json
+import time
+
+from typing import NamedTuple, Tuple
+
+# $ xrandr --listmonitors
+# Monitors: 2
+#  0: +*DP-4 2560/597x1440/336+3840+0  DP-4
+#  1: +USB-C-0 3840/600x2160/340+0+0  USB-C-0
+
+LEFT = 'USB-C-0'
+RIGHT = 'DP-4'
+
+LEFT_MODE = (3840, 2160)
+RIGHT_MODE = (2560, 1440)
+
+# Seems to cause issues with latest NVidia drivers (410.104)
+WITH_SCALE = False
+
+parser = argparse.ArgumentParser()
+parser.add_argument('command')
+
+
+re_monitor = re.compile(r'^'
+                        r' *(?P<id>\d+):'
+                        r' \+(?P<flag>\*)?(?P<name>\S+)'
+                        r' (?P<w>\d+)/(?P<wp>\d+)x(?P<h>\d+)/(?P<hp>\d+)\+(?P<x>\d+)\+(?P<y>\d+)'
+                        r'  (?P<name2>\S+)'
+                        r'$', re.ASCII)
+
+
+def state():
+    result = {}
+    p = subprocess.check_output(['xrandr', '--listmonitors']).decode()
+    for line in p.splitlines():
+        r = re_monitor.match(line)
+        if r is not None:
+            d = r.groupdict()
+            result[r['name']] = {
+                **d,
+                'w': int(d['w']),
+                'h': int(d['h']),
+                'wp': int(d['wp']),
+                'hp': int(d['hp']),
+                'x': int(d['x']),
+                'y': int(d['y'])
+            }
+    return result
+
+
+class Monitor(NamedTuple):
+    name: str
+    mode: Tuple[int, int]
+    enabled: bool
+    scale: int
+
+
+def configure(monitors):
+    args = ['xrandr', '--dpi', '192']
+    offset = 0
+    primary = True
+    for m in monitors:
+        if not m.enabled:
+            args += [
+                '--output', m.name,
+                '--off'
+            ]
+        else:
+            ww = int(m.mode[0]/m.scale)
+            hh = int(m.mode[1]/m.scale)
+            args += [
+                '--output', m.name,
+                '--mode', f'{m.mode[0]}x{m.mode[1]}'
+            ]
+            if WITH_SCALE:
+                args += [
+                    '--panning', f'{ww}x{hh}+{offset}+0'
+                ]
+            else:
+                args += [
+                    '--pos', f'{offset}x0'
+                ]
+            if primary:
+                args += ['--primary']
+                primary = False
+            if WITH_SCALE:
+                if m.scale == 1:
+                    args += ['--scale', f'{m.scale}x{m.scale}']
+                else:
+                    args += ['--scale-from', f'{ww}x{hh}']
+            offset += int(m.mode[0]/m.scale)
+
+    print(' '.join(map(pipes.quote, args)))
+    subprocess.check_output(args)
+
+
+def main():
+    ns = parser.parse_args()
+
+    cmd = ns.command
+
+    s = state()
+    left_on = LEFT in s
+    right_on = RIGHT in s
+    left_scaled = left_on and s[LEFT].get('h') != LEFT_MODE[1]
+    flush = False
+
+    if cmd == 'help':
+        print('Commande: toggle-left, toggle-right, toggle-scale, reset, info, help')
+        sys.exit(0)
+    elif cmd == 'toggle-left':
+        left_on = not left_on
+        right_on = True
+    elif cmd == 'toggle-right':
+        left_on = True
+        right_on = not right_on
+    elif cmd == 'toggle-scale':
+        left_scaled = not left_scaled
+    elif cmd == 'reset':
+        left_on = True
+        left_scaled = False
+        right_on = True
+        flush = True
+    elif cmd == 'info':
+        print(json.dumps(s, indent=4))
+        return
+    else:
+        raise ValueError(f'Unexpected command ({cmd!r})')
+
+    configure([
+        Monitor(LEFT, LEFT_MODE, left_on, 1.5 if left_scaled else 1),
+        Monitor(RIGHT, RIGHT_MODE, right_on, 1)
+    ])
+
+
+main()

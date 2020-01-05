@@ -13,7 +13,6 @@ Config {
   , commands = [ Run Cpu ["-t", "<fc=#666666><icon=.xmobar/cpu.xbm/></fc> <total>%", "-L", "3", "-p", "2", "-H", "50", "--normal", "green", "--high", "red"] 10
                , Run Memory ["-t", "<fc=#666666><icon=.xmobar/mem.xbm/></fc> <usedratio>%", "-p", "2", "--High", "85", "--high", "red"] 10
                , Run DiskU [("/", "<fc=#666666><icon=.xmobar/floppy.xbm/></fc> <free>")] [] 20
-               , Run TopMem ["-L", "90", "-H", "100", "-M", "16", "-t", "<fc=#666666><icon=.xmobar/process.xbm/></fc> <both1>"] 10
                , Run TopProc ["-L", "90", "-H", "100", "-M", "16", "-t", "<fc=#666666><icon=.xmobar/process.xbm/></fc> <both1>%"] 10
                , Run Date "%Y-%m-%d <fc=#77aa77>%H:%M:%S %Z</fc>" "date" 1
                , Run DateZone "%Y-%m-%d <fc=#7799bb>%H:%M:%S CET</fc>" "en_US.UTF-8" "Europe/Paris" "parisTime" 1
@@ -30,7 +29,6 @@ Config {
                \ <fc=black>┃</fc> %cpu%\
                \ <fc=black>┃</fc> %top%\
                \ <fc=black>┃</fc> %memory%\
-               \ <fc=black>┃</fc> %topmem%\
                \ <fc=black>┃</fc> %disku%\
                \ <fc=black>┃</fc> <fc=#666666><icon=.xmobar/monitoring.xbm/></fc> %zabbix-status% "
 }

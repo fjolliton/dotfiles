@@ -99,6 +99,15 @@ def loop(ns):
             if proc is not None:
                 if not ns.quiet:
                     print(time.ctime(), 'Stopping the process')
+                proc.terminate()
+                deadline = time.time() + 5
+                while time.time() <= deadline:
+                    if proc.poll() is not None:
+                        break
+                    time.sleep(.1)
+                if proc.poll() is None:
+                    if not ns.quiet:
+                        print(time.ctime(), 'Still running. Killing it')
                 proc.kill()
                 proc.communicate()
                 process_terminated(proc)

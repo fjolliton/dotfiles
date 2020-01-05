@@ -80,6 +80,9 @@ myKeys XConfig { modMask = modm } = M.fromList $
     , ((mod3Mask, xK_slash), safeSpawn "killall" ["-CONT", "blender27"])
     , ((mod3Mask .|. shiftMask, xK_slash), safeSpawn "killall" ["-STOP", "blender27"])
 
+    , ((mod2Mask .|. shiftMask, xK_Up), windows W.swapUp)
+    , ((mod2Mask .|. shiftMask, xK_Down), windows W.swapDown)
+
       -- Left Alt key (mod1)
     , ((mod1Mask .|. controlMask, xK_Left), safeSpawn "xrandr" ["--output", leftMonitor, "--auto", "--output", rightMonitor, "--off"])
     , ((mod1Mask .|. controlMask, xK_Right), safeSpawn "xrandr" ["--output", leftMonitor, "--off", "--output", rightMonitor, "--auto"])

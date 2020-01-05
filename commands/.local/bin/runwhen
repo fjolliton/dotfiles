@@ -34,7 +34,6 @@ parser.add_argument('command', nargs='*')
 
 
 def loop(ns):
-    print(ns)
     if ns.simple:
         ns.fancy = True
         ns.clear = True

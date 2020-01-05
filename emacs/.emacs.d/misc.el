@@ -1,5 +1,8 @@
 ;;; Other things that should probably be categorized.
 
+(global-set-key (kbd "A-M-<right>") 'next-buffer)
+(global-set-key (kbd "A-M-<left>") 'previous-buffer)
+
 (which-key-mode)
 
 ;;; XMonad doesn't support iconifying windows

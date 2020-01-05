@@ -28,7 +28,7 @@ urxvt*font:\
   xft:Fixed
 
 ! Styles
-urxvt*fading: 25
+urxvt*fading: 20
 urxvt*scrollBar: false
 urxvt*internalBorder: 3
 

@@ -5,6 +5,11 @@
 (require 'lsp-mode)
 (require 'flycheck)
 
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
+(add-hook 'typescript-mode-hook #'lsp)
+
+(setq typescript-auto-indent-flag nil)
+
 (defconst lsp-javascript--get-root
   (lsp-make-traverser (lambda (dir)
                         (file-exists-p (concat dir "/package.json")))))

@@ -8,3 +8,8 @@
 
 ;;; Show messages in popup, not in mini-buffer
 (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+
+(defun tuxee-lsp-bindings ()
+  (local-set-key (kbd "C-.") 'lsp-find-references))
+
+(add-hook 'lsp-mode-hook 'tuxee-lsp-bindings)

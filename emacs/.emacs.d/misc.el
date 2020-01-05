@@ -5,6 +5,8 @@
 
 (which-key-mode)
 
+(setq whitespace-line-column 100)
+
 ;;; XMonad doesn't support iconifying windows
 (when window-system
   (global-unset-key (kbd "C-z")))

@@ -1,0 +1,11 @@
+#!/bin/bash
+VALUE=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits)
+if [[ $VALUE -lt 3 ]]; then
+	echo "<fc=#888>$VALUE</fc>%"
+elif [[ $VALUE -lt 60 ]]; then
+	echo "$VALUE%"
+elif [[ $VALUE -lt 80 ]]; then
+	echo "<fc=#f90>$VALUE</fc>%"
+else
+	echo "<fc=#f00>$VALUE</fc>%"
+fi

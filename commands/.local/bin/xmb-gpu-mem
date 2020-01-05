@@ -1,0 +1,12 @@
+#!/bin/bash
+VALUE=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits)
+UNIT="MB"
+if [[ $VALUE -lt 500 ]]; then
+	echo "<fc=#888>$VALUE</fc>$UNIT"
+elif [[ $VALUE -lt 1000 ]]; then
+	echo "$VALUE$UNIT"
+elif [[ $VALUE -lt 5000 ]]; then
+	echo "<fc=#f90>$VALUE</fc>$UNIT"
+else
+	echo "<fc=#f00>$VALUE</fc>$UNIT"
+fi

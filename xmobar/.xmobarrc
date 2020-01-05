@@ -31,6 +31,8 @@ Config {
                \ <fc=black>┃</fc> %StdinReader%}{\
                \ <fc=black>┃</fc> %wlan0% (%network-latency%)\
                \ <fc=black>┃</fc> %top%\
+               \ <fc=black>┃</fc> <fc=#666666><icon=.xmobar/gpu.xbm/></fc> %xmb-gpu-util%\
+               \ <fc=black>┃</fc> <fc=#666666><icon=.xmobar/gpu.xbm/></fc> %xmb-gpu-mem%\
                \ <fc=black>┃</fc> %cpu%\
                \ <fc=black>┃</fc> %memory%\
                \ <fc=black>┃</fc> %swap%\

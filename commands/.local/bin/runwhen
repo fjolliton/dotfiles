@@ -17,6 +17,8 @@ import time
 import argparse
 import shutil
 
+from pathlib import Path
+
 
 parser = argparse.ArgumentParser(description='Restart a process whenever a given file is changed')
 parser.add_argument('-t', '--terminate', action='store_true', help='Terminate the process if it is still running')
@@ -27,6 +29,7 @@ parser.add_argument('-F', '--fancy', action='store_true', help='Fancy markers fo
 parser.add_argument('-i', '--replace', action='store_true', help='Replace {} with the first watched file')
 parser.add_argument('-s', '--simple', action='store_true', help='Simple mode. Equivalent to -FCqti')
 parser.add_argument('-w', '--watch', action='append')
+parser.add_argument('-W', '--watch-glob', action='append')
 parser.add_argument('command', nargs='*')
 
 
@@ -77,6 +80,13 @@ def loop(ns):
 
     while True:
         currents = {}
+        for pattern in ns.watch_glob or ():
+            for name in Path('.').glob(pattern):
+                name = str(name)
+                try:
+                    currents[name] = os.stat(name).st_mtime
+                except FileNotFoundError:
+                    pass
         for name in ns.watch or ():
             try:
                 currents[name] = os.stat(name).st_mtime

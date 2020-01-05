@@ -24,5 +24,13 @@ Config {
                ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = " <fc=#888888>%parisWdate%</fc> <fc=black>┃</fc> <fc=#888888>%parisTime%</fc> <fc=black>┃</fc> %StdinReader%}{<fc=black>┃</fc> %cpu% <fc=black>┃</fc> %top% <fc=black>┃</fc> %memory% <fc=black>┃</fc> %topmem% <fc=black>┃</fc> %disku% <fc=black>┃</fc> <fc=#666666><icon=.xmobar/monitoring.xbm/></fc> %zabbix-status% "
+  , template = " <fc=#888888>%parisWdate%</fc>\
+               \ <fc=black>┃</fc> <fc=#888888>%parisTime%</fc>\
+               \ <fc=black>┃</fc> %StdinReader%}{\
+               \ <fc=black>┃</fc> %cpu%\
+               \ <fc=black>┃</fc> %top%\
+               \ <fc=black>┃</fc> %memory%\
+               \ <fc=black>┃</fc> %topmem%\
+               \ <fc=black>┃</fc> %disku%\
+               \ <fc=black>┃</fc> <fc=#666666><icon=.xmobar/monitoring.xbm/></fc> %zabbix-status% "
 }

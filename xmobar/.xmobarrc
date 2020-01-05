@@ -21,6 +21,7 @@ Config {
                , Run Date "%G-<fc=#aaaaaa>W</fc>%V-%u" "wdate" 10
                , Run DateZone "%G-<fc=#aaaaaa>W</fc>%V-%u" "en_US.UTF-8" "Europe/Paris" "parisWdate" 10
                , Run Com "zabbix-status" [] "" 600
+               , Run Com "network-latency" ["8.8.8.8", "<fc=red>down</fc>"] "" 20
                , Run StdinReader
                ]
   , sepChar = "%"
@@ -28,7 +29,7 @@ Config {
   , template = " <fc=#888888>%parisWdate%</fc>\
                \ <fc=black>┃</fc> <fc=#888888>%parisTime%</fc>\
                \ <fc=black>┃</fc> %StdinReader%}{\
-               \ <fc=black>┃</fc> %wlan0%\
+               \ <fc=black>┃</fc> %wlan0% (%network-latency%)\
                \ <fc=black>┃</fc> %top%\
                \ <fc=black>┃</fc> %cpu%\
                \ <fc=black>┃</fc> %memory%\

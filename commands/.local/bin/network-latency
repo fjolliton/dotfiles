@@ -1,0 +1,3 @@
+#!/bin/sh
+LATENCY=$(ping -w1 -c1 "$1"|awk -F / '/^rtt/{printf("%.0f ms", $5)}')
+if [ -n "$LATENCY" ]; then echo "$LATENCY"; else echo "$2"; fi

@@ -13,7 +13,7 @@ alias glg="git log --graph --oneline --boundary --cherry-mark --pretty=format:'%
 alias gcb="git checkout -b"
 alias grs="git rebase -i --autosquash"
 alias grv="git remote -v"
-alias gfp='git fetch --tags -p'
+alias gfp='git fetch --tags -p --all'
 
 # Rarely used
 alias gcn="git commit --amend --no-edit"

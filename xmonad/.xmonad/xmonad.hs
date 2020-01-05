@@ -68,6 +68,7 @@ myKeys XConfig { modMask = modm } = M.fromList $
       ((mod3Mask, xK_s), safeSpawn "firefox" ["-ProfileManager", "-no-remote"])
     , ((mod3Mask, xK_x), safeSpawn "emacs" [])
     , ((mod3Mask, xK_m), safeSpawn "urxvt" [])
+    , ((mod3Mask, xK_w), safeSpawn "urxvt" ["-fn", "xft:Inconsolata:pixelsize=48,xft:Fixed"])
     , ((mod3Mask, xK_t), safeSpawn "alacritty" [])
     , ((mod3Mask, xK_j), safeSpawn "urxvt" ["-e", "node-repl"])
     , ((mod3Mask, xK_r), safeSpawn "urxvt" ["-e", "./js/node_modules/.bin/rtop"])

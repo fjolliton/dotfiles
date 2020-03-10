@@ -24,6 +24,7 @@ parser = argparse.ArgumentParser(description='Restart a process whenever a given
 parser.add_argument('-t', '--terminate', action='store_true', help='Terminate the process if it is still running')
 parser.add_argument('-d', '--delay', type=float)
 parser.add_argument('-C', '--clear', action='store_true', help='Clear the terminal before updating')
+parser.add_argument('-R', '--reset', action='store_true', help='Reset the terminal before updating')
 parser.add_argument('-q', '--quiet', action='store_true', help='Suppress messages')
 parser.add_argument('-F', '--fancy', action='store_true', help='Fancy markers for begin and end')
 parser.add_argument('-i', '--replace', action='store_true', help='Replace {} with the first watched file')
@@ -101,7 +102,9 @@ def loop(ns):
         witness_warning_printed = False
 
         if currents != lasts:
-            if ns.clear:
+            if ns.reset:
+                subprocess.call(['reset'])
+            elif ns.clear:
                 subprocess.call(['clear'])
             if not ns.quiet:
                 print(time.ctime(), 'Change detected on', ns.watch)

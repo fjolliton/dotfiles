@@ -12,6 +12,9 @@ Emacs.scrollBarWidth: 0
 
 ! -- urxvt ---------------------------------------------------------------------
 
+! Disable printing feature
+urxvt.print-pipe: cat > /dev/null
+
 ! Disable ISO 14755 input method
 urxvt.iso14755:    false
 urxvt.iso14755_52: false

@@ -1,3 +1,55 @@
-#!/bin/sh
+#!/usr/bin/python3
 
-date --date=@"$1"
+import sys
+import time
+import ipaddress
+
+
+def iso8601(t):
+    t, frac = divmod(t, 1)
+    info = time.gmtime(int(t))[:6] + (int(frac*1e6),)
+    return '{:04d}-{:02d}-{:02d}T{:02d}:{:02d}:{:02d}.{:06d}Z'.format(*info)
+
+
+def fmt(value):
+    if abs(value) < 10**10:
+        ts = value
+        extra = ''
+    elif abs(value) < 10**13:
+        ts = value / 1e3
+        extra = 'msec'
+    elif abs(value) < 10**16:
+        ts = value / 1e6
+        extra = 'usec'
+    else:
+        ts = value / 1e9
+        extra = 'nsec'
+    print('Date: {}{}'.format(iso8601(ts), f' ({extra})' if extra else ''))
+    print('Dec: ', value)
+    print('Hex: ', hex(int(value)))
+    print('Oct: ', oct(int(value)))
+    print('Bin: ', bin(int(value)))
+    if value == int(value) and 0 < value < 2**32:
+        print('IPv4:', '.'.join(str((int(value) >> (8 * i)) & 255) for i in range(3, -1, -1)), '(be)')
+        print('     ', '.'.join(str((int(value) >> (8 * i)) & 255) for i in range(4)), '(le)')
+    if value == int(value) and 0 < value < 2**128:
+        print('IPv6:', str(ipaddress.IPv6Address(value)), '(be)')
+
+
+def main():
+    value = sys.argv[1] if len(sys.argv) > 1 else str(time.time())
+    if value.lower().startswith('0x'):
+        value = int(value[2:], 16)
+    elif value.lower().startswith('0o'):
+        value[2:] = int(value, 8)
+    elif value.lower().startswith('0b'):
+        value = int(value[2:], 2)
+    elif '.' in value or 'e' in value:
+        value = float(value)
+    else:
+        value = int(value)
+    fmt(value)
+
+
+if __name__ == '__main__':
+    main()

@@ -124,6 +124,8 @@ sub on_user_command
         fonts_change_size($self,  $step, 0);
     } elsif ($cmd eq "font-size:decrease") {
         fonts_change_size($self, -$step, 0);
+    } elsif ($cmd eq "font-size:large") {
+        fonts_change_size($self, 48000, 0);
     } elsif ($cmd eq "font-size:incglobal") {
         fonts_change_size($self,  $step, 1);
     } elsif ($cmd eq "font-size:decglobal") {
@@ -147,6 +149,8 @@ sub on_action
         fonts_change_size($self,  $step, 0);
     } elsif ($action eq "decrease") {
         fonts_change_size($self, -$step, 0);
+    } elsif ($action eq "large") {
+        fonts_change_size($self, 48000, 0);
     } elsif ($action eq "incglobal") {
         fonts_change_size($self,  $step, 1);
     } elsif ($action eq "decglobal") {
@@ -285,7 +289,9 @@ sub font_change_size_xft
         if ($piece =~ /^(?:(?:pixel)?size=|[^=-]+-)(\d+(\.\d*)?)$/) {
             $size = $1;
 
-            if ($basesize != 0) {
+            if ($change >= 1000) {
+                $new_size = $change / 1000;
+            } elsif ($basesize != 0) {
                 $new_size = $basesize;
             } else {
                 $new_size = $size + $change

@@ -2,6 +2,7 @@
 (setq-default indent-tabs-mode nil)
 (show-paren-mode 1)
 (electric-indent-mode 0)
+(c-set-offset 'case-label '+)
 
 (defun tuxee-setup-reason ()
   (local-set-key (kbd "C-c C-c") 'refmt))

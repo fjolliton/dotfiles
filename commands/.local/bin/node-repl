@@ -42,6 +42,7 @@ const MODULES = [
     {name: 'immutable', alias: 'I'},
     {name: 'jsdom'},
     {name: 'moment'},
+    {name: 'luxon'},
     {name: 'react', alias: 'React'},
     {name: 'react-dom', alias: 'ReactDOM'},
     {name: 'rxjs', alias: 'Rx'},

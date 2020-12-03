@@ -106,8 +106,8 @@ uniformBorder i = Border i i i i
 -- FIXME: Put the styling in dynamic log ppOrder
 myLayout = renameLayout "Full" Full
            ||| (layoutWrapper "Tall" $ Tall 1 (3/100) (1/2))
-           ||| (layoutWrapper "Mirror Tall" $ Mirror (Tall 1 (3/100) (1/2)))
-           ||| (layoutWrapper "Grid" $ Grid)
+           -- ||| (layoutWrapper "Mirror Tall" $ Mirror (Tall 1 (3/100) (1/2)))
+           -- ||| (layoutWrapper "Grid" $ Grid)
   where layoutWrapper name = renameLayout name
                              . IfMax 1 Full
                              . spacingRaw True (uniformBorder 0) True (uniformBorder $ toInteger windowGap) True

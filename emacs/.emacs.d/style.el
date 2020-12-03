@@ -40,3 +40,50 @@
                          (concat "{" dired-directory "}"))
                         (t
                          "[no file]")))))
+
+;;; Stolen from https://github.com/rougier/elegant-emacs
+;;; BEGIN: Elegant Emacs
+
+(tooltip-mode 0)
+
+(setq x-underline-at-descent-line t)
+
+(defun mode-line-render (left right)
+  "Function to render the modeline LEFT to RIGHT."
+  (let* ((available-width (- (window-width) (length left) 1)))
+    (format (format "%%s %%%ds" available-width) left right)))
+
+(setq-default mode-line-format
+  '((:eval
+     (mode-line-render
+      (format-mode-line
+       (list
+        (propertize "☰"
+                    ;'face `(:inherit mode-line-buffer-id)
+                    'help-echo "Mode(s) menu"
+                    'mouse-face 'mode-line-highlight
+                    'local-map   mode-line-major-mode-keymap)
+        " %b "
+        (if (and buffer-file-name (buffer-modified-p))
+            (propertize "(modified)" 'face `(:inherit face-faded)))))
+      (format-mode-line
+       (propertize "%4l:%c" 'face `(:inherit face-faded)))))))
+
+(setq-default header-line-format mode-line-format)
+(setq-default mode-line-format '(""))
+
+(setq default-frame-alist
+      '(;(width . 20) '(height . 8)
+        ;(vertical-scroll-bars . nil)
+        (internal-border-width . 6)
+        ;(font . "Inconsolata 14")
+        ))
+
+(set-frame-parameter (selected-frame)
+                     'internal-border-width 6)
+
+(setq window-divider-default-right-width 8)
+(setq window-divider-default-places 'right-only)
+(window-divider-mode)
+
+;;; END: Elegant Emacs

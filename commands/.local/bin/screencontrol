@@ -21,6 +21,10 @@ RIGHT = 'DP-4'
 LEFT_MODE = (3840, 2160)
 RIGHT_MODE = (2560, 1440)
 
+# Try to use only safe options (to prevent black screens in some
+# circumstances).
+SAFE = True
+
 # Seems to cause issues with latest NVidia drivers (410.104)
 WITH_SCALE = False
 
@@ -80,17 +84,22 @@ def configure(monitors):
                 '--mode', f'{m.mode[0]}x{m.mode[1]}'
             ]
             if WITH_SCALE:
-                args += [
-                    '--panning', f'{ww}x{hh}+{offset}+0'
-                ]
+                if not SAFE:
+                    args += [
+                        '--panning', f'{ww}x{hh}+{offset}+0'
+                    ]
             else:
                 args += [
                     '--pos', f'{offset}x0'
                 ]
+                if not SAFE:
+                    args += [
+                        '--panning', f'{ww}x{hh}+{offset}+0'
+                    ]
             if primary:
                 args += ['--primary']
                 primary = False
-            if WITH_SCALE:
+            if WITH_SCALE and not SAFE:
                 if m.scale == 1:
                     args += ['--scale', f'{m.scale}x{m.scale}']
                 else:

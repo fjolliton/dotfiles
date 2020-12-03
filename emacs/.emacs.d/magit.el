@@ -28,7 +28,7 @@
     (if parts
         (upcase (if (cdr parts)
                     (string-join (mapcar (lambda (part) (substring part 0 1)) parts) "")
-                  (substring (concat (first parts) "--") 0 2)))
+                  (substring (concat (car parts) "--") 0 2)))
       "??")))
 
 (defun tuxee-shorten-date (dt)

@@ -16,6 +16,7 @@
 (add-hook 'lsp-mode-hook 'tuxee-disable-ui-doc)
 
 (defun tuxee-lsp-bindings ()
-  (local-set-key (kbd "C-.") 'lsp-find-references))
+  (local-set-key (kbd "C-.") 'lsp-find-references)
+  (local-set-key (kbd "C-c r") 'lsp-rename))
 
 (add-hook 'lsp-mode-hook 'tuxee-lsp-bindings)

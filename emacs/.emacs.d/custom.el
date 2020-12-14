@@ -8,14 +8,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(lsp-ui-doc-border "#333333")
- '(lsp-ui-doc-header t)
- '(lsp-ui-doc-include-signature t)
- '(lsp-ui-doc-position 'bottom)
- '(lsp-ui-doc-use-childframe t)
- '(lsp-ui-sideline-enable nil)
  '(package-selected-packages
-   '(neotree projectile which-key company flycheck merlin lsp-ocaml lsp-ui lsp-mode markdown-mode reason-mode merlin-eldoc magit htmlize haskell-mode glsl-mode flycheck-flow company-lsp company-flow color-theme bbdb ace-jump-mode)))
+   '(yasnippet-snippets which-key use-package typescript-mode selectrum-prescient rainbow-delimiters py-isort prettier-js org-roam org-download neotree multiple-cursors magit lsp-mode jinja2-mode htmlize haskell-mode flycheck company buffer-move blacken bbdb ace-jump-mode)))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

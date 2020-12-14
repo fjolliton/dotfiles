@@ -1,3 +1,5 @@
+! NOTE: Put local settings in ~/.Xdefaults-<hostname>
+
 ! The cursor is too big by default
 Xcursor.size: 16
 

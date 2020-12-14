@@ -10,6 +10,8 @@
 /emacs/.emacs.d/opam-user-setup.el
 /emacs/.emacs.d/semanticdb/
 /emacs/.emacs.d/projectile-bookmarks.eld
+/emacs/.emacs.d/ido.last
+/emacs/.emacs.d/org-roam.db
 
 # Emacs backup files
 *~

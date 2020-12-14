@@ -1,0 +1,6 @@
+# key: ucb
+# name: ucb
+# --
+const ${1:name} = useCallback((${2:}) => {
+    ${3:}
+}, [${4:}]);

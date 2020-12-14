@@ -1,0 +1,4 @@
+# key: c
+# name: c
+# --
+const ${1:name} = ${2:value};

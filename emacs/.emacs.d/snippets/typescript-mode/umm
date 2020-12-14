@@ -1,0 +1,4 @@
+# key: umm
+# name: umm
+# --
+const ${1:name} = useMemo(() => {$2}, [$3]);

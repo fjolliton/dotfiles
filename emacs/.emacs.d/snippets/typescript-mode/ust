@@ -1,0 +1,4 @@
+# key: ust
+# name: ust
+# --
+const [${1:name}, set${1:$(tuxee-capitalize-first-char yas-text)}] = useState($2);

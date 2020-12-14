@@ -1,0 +1,10 @@
+# key: comp
+# name: comp
+# --
+type $1Props = {
+    ${2:}
+};
+
+const ${1:name} = (props: $1Props) => {
+    return <></>;
+};

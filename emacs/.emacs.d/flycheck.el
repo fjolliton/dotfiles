@@ -1,3 +1,11 @@
-(require 'flycheck-flow)
+;;; flycheck.el -- Flycheck related setup
+;;; Commentary:
+;;; (no comment)
+;;; Code:
 
-(add-hook 'after-init-hook 'global-flycheck-mode)
+(use-package flycheck
+  :ensure t
+  :hook
+  (after-init . global-flycheck-mode))
+
+;;; flycheck.el ends here

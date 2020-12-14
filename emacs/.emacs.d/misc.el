@@ -1,9 +1,84 @@
+;;; misc.el -- Other setup to perform
+;;; Commentary:
+;;; (no comment)
+;;; Code:
+
 ;;; Other things that should probably be categorized.
 
-(global-set-key (kbd "A-M-<right>") 'next-buffer)
-(global-set-key (kbd "A-M-<left>") 'previous-buffer)
+(require 'whitespace)
+(require 'dired)
+(require 'cc-vars)
 
-(which-key-mode)
+;; Not convinced. Plus things such as M-x p-l-p ENTER does nothing because nothing match.
+
+;; (use-package selectrum
+;;   :ensure t
+;;   :init
+;;   (selectrum-mode +1))
+
+;; (use-package selectrum-prescient
+;;   :ensure t
+;;   :init
+;;   (selectrum-prescient-mode +1)
+;;   (prescient-persist-mode +1))
+
+(use-package ido
+  :ensure t
+  :config
+  (ido-mode)
+  :custom
+  (ido-show-dot-for-dired t))
+
+(use-package buffer-move
+  :ensure
+  :bind
+  ("A-S-<left>" . buf-move-left)
+  ("A-S-<right>" . buf-move-right)
+  ("A-S-<up>" . buf-move-up)
+  ("A-S-<down>" . buf-move-down))
+
+(use-package multiple-cursors
+  :ensure t
+  :bind
+  ("C-S-c C-S-c" . 'mc/edit-lines)
+  ("C->" . 'mc/mark-next-like-this)
+  ("C-<" . 'mc/mark-previous-like-this)
+  ("C-c C-<" . 'mc/mark-all-like-this)
+  ("C-S-<mouse-1>" . 'mc/toggle-cursor-on-click))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :bind
+  ("C-<f9>" . 'rainbow-delimiters-mode))
+
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode)
+  (defun tuxee-capitalize-first-char (text)
+    (concat (upcase (subseq text 0 1)) (subseq text 1))))
+
+(use-package yasnippet-snippets
+  :ensure t)
+
+(use-package which-key
+  :ensure t
+  :init (which-key-mode))
+
+(use-package jinja2-mode
+  :ensure t
+  :mode "\\.jinja\\'")
+
+(use-package ace-jump-mode
+  :ensure t
+  :bind
+  ("A-c" . 'ace-jump-mode))
+
+;;; Rarely used. Remove?
+(use-package neotree
+  :ensure t
+  :bind
+  ("<f8>" . 'neotree-toggle))
 
 (setq whitespace-line-column 100)
 
@@ -53,47 +128,44 @@
   (interactive "P")
   (tuxee-shift (or arg c-basic-offset)))
 
-;;; Lazy set because we need to load custom.el first which set the
-;;; font size.
-(defvar tuxee-default-face-height nil)
+(defvar tuxee-font-sizes '(nil 200 300 105))
 
-(defvar tuxee-prez-face-height 220)
-
-(defun tuxee-prez ()
-  "Toggle between two font sizes."
+(defun tuxee-font-size-cycle ()
+  "Cycle between font sizes."
   (interactive)
-  (unless tuxee-default-face-height
-    (setq tuxee-default-face-height (face-attribute 'default :height)))
-  (set-face-attribute 'default nil
-                      :height (if (/= (face-attribute 'default :height) tuxee-default-face-height)
-                                  tuxee-default-face-height
-                                tuxee-prez-face-height)))
+  (setq tuxee-font-sizes
+        (nconc (cdr tuxee-font-sizes)
+               (list (or (car tuxee-font-sizes)
+                         (face-attribute 'default :height)))))
+  (let ((next-height (car tuxee-font-sizes)))
+    (set-face-attribute 'default nil
+                        :height next-height)))
 
 (defun tuxee-toggle-explicit-lines ()
+  "Show or hide line numbers."
   (interactive)
   (let ((mode (if global-display-line-numbers-mode 0 nil)))
     (global-display-line-numbers-mode mode)
     (global-hl-line-mode mode)))
 
 ;;; Extra bindings
-(global-set-key (kbd "<mouse-6>") 'scroll-right)
-(global-set-key (kbd "<mouse-7>") 'scroll-left)
-
-(global-set-key (kbd "A-6") 'delete-indentation) ; Because M-6 (aka M-^) conflicts with XMonad
-(global-set-key (kbd "A-<down>") 'tuxee-move-line-down)
-(global-set-key (kbd "A-<left>") 'tuxee-shift-left)
-(global-set-key (kbd "A-<right>") 'tuxee-shift-right)
-(global-set-key (kbd "A-<up>") 'tuxee-move-line-up)
-(global-set-key (kbd "A-c") 'ace-jump-mode)
-(global-set-key (kbd "C-<return>") 'tuxee-toggle-selective-display)
-(global-set-key (kbd "C-<tab>") 'other-window)
-(global-set-key (kbd "C-c C-a") 'align-regexp)
-
 (global-set-key (kbd "<f6>") 'kill-this-buffer)
-(global-set-key (kbd "<f8>") 'neotree-toggle)
 (global-set-key (kbd "<f9>") 'tuxee-toggle-explicit-lines)
 (global-set-key (kbd "<f11>") 'whitespace-mode)
 (global-set-key (kbd "C-<f11>") 'whitespace-cleanup)
-(global-set-key (kbd "<f12>") 'magit-blame)
-(global-set-key (kbd "A-<f12>") 'tuxee-prez)
-(global-set-key (kbd "C-<f12>") 'magit-log)
+(global-set-key (kbd "<mouse-6>") 'scroll-right)
+(global-set-key (kbd "<mouse-7>") 'scroll-left)
+(global-set-key (kbd "A-6") 'delete-indentation) ; Because M-6 (aka M-^) conflicts with XMonad
+(global-set-key (kbd "A-<f12>") 'tuxee-font-size-cycle)
+(global-set-key (kbd "A-<left>") 'tuxee-shift-left)
+(global-set-key (kbd "A-M-<left>") 'previous-buffer)
+(global-set-key (kbd "A-<right>") 'tuxee-shift-right)
+(global-set-key (kbd "A-M-<right>") 'next-buffer)
+(global-set-key (kbd "A-<up>") 'tuxee-move-line-up)
+(global-set-key (kbd "A-<down>") 'tuxee-move-line-down)
+(global-set-key (kbd "C-<return>") 'tuxee-toggle-selective-display)
+(global-set-key (kbd "C-<tab>") 'other-window)
+(global-set-key (kbd "C-c C-a") 'align-regexp)
+(global-set-key (kbd "M-SPC") 'cycle-spacing)
+
+;;; misc.el ends here

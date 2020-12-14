@@ -1,3 +1,11 @@
+;;; gnus-personal.el -- GNUS local settings, not intended to be commited
+;;; Commentary:
+;;; (no comment)
+;;; Code:
+
+(require 'gnus)
+(require 'gnus-msg)
+
 (setq gnus-secondary-select-methods
       '((nnimap "imap.isp"
                 (nnimap-address "imap.example.org")
@@ -6,3 +14,5 @@
                 (nnimap-authinfo-file "~/.authinfo.gpg"))))
 
 (setq gnus-posting-styles nil)
+
+;;; gnus-personal.el ends here

@@ -1,3 +1,8 @@
+;;; color-theme-tuxee.el -- Tuxee Color Theme
+;;; Commentary:
+;;; (no comment)
+;;; Code:
+
 (deftheme tuxee "Tuxee color theme")
 
 (let ((bg-color "#1a1a1a")
@@ -137,3 +142,5 @@
     `(window-divider-last-pixel ((t (:foreground ,bg-color))))))
 
 (provide-theme 'tuxee)
+
+;;; color-theme-tuxee.el ends here

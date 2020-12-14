@@ -1,3 +1,9 @@
+;;; mail-personal.el -- Extra mail setup
+;;; Commentary:
+;;; (no comment)
+;;; Code:
+
 (setq user-full-name "John Doe")
 (setq user-mail-address "john.doe@example.org")
 
+;;; mail-personal.el ends here

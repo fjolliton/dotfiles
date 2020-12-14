@@ -1,32 +1,25 @@
-;;; Only works with:
-;;; OCaml 4.02.3
-;;; Merlin 2.5.4
+;;; javascript.el -- JS/TS related setup
+;;; Commentary:
+;;; (no comment)
+;;; Code:
 
-(require 'lsp-mode)
-(require 'flycheck)
+(defun tuxee-extend-exec-path-for-javascript ()
+  "Extend EXEC-PATH for a Javascript buffer."
+  (tuxee-smart-exec-path "node_modules" "node_modules/.bin"))
 
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
-(add-hook 'typescript-mode-hook #'lsp)
+(use-package prettier-js
+  :ensure t
+  :hook
+  (js-mode . prettier-js-mode)
+  (typescript-mode . prettier-js-mode))
 
-(setq typescript-auto-indent-flag nil)
+(use-package typescript-mode
+  :ensure t
+  :mode "\\.tsx\\'"
+  :hook
+  (typescript-mode . tuxee-extend-exec-path-for-javascript)
+  (typescript-mode . lsp)
+  :custom
+  (typescript-auto-indent-flag nil))
 
-(defconst lsp-javascript--get-root
-  (lsp-make-traverser (lambda (dir)
-                        (file-exists-p (concat dir "/package.json")))))
-
-(lsp-define-stdio-client
- lsp-javascript-flow
- "javascript"
- lsp-javascript--get-root
- '("flow" "lsp"))
-
-(add-hook 'js-mode-hook 'lsp-javascript-flow-enable)
-
-(lsp-define-stdio-client
- lsp-reason
- "reason"
- lsp-javascript--get-root
- '("ocaml-language-server" "--stdio"))
-
-(add-to-list 'flycheck-checkers 'javascript-eslint)
-(add-to-list 'flycheck-checkers 'javascript-flow)
+;;; javascript.el ends here

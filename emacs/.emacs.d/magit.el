@@ -1,10 +1,9 @@
-(require 'color)
+;;; magit.el -- Magit related setup
+;;; Commentary:
+;;; (no comment)
+;;; Code:
 
-(setq magit-blame-styles
-  '((tuxee-by-commit (margin-width . 20)
-                     (margin-format "{tuxee}" "{tuxee!}"))
-    (tuxee-by-author (margin-width . 20)
-                     (margin-format "{tuxee-author}" "{tuxee-author!}"))))
+(require 'color)
 
 (defun tuxee-color-from-git-hash (value style &optional lightness)
   (let* ((h value)
@@ -79,4 +78,19 @@
                                            (string= format "{tuxee-author!}")))
     (apply orig (list rev revinfo format face))))
 
-(advice-add 'magit-blame--format-string-1 :around 'tuxee-magit-blame-format-string-1-advice)
+(use-package magit
+  :ensure t
+
+  :config
+  (advice-add 'magit-blame--format-string-1 :around 'tuxee-magit-blame-format-string-1-advice)
+  (setq magit-blame-styles
+        '((tuxee-by-commit (margin-width . 20)
+                           (margin-format "{tuxee}" "{tuxee!}"))
+          (tuxee-by-author (margin-width . 20)
+                           (margin-format "{tuxee-author}" "{tuxee-author!}"))))
+
+  :bind
+  ("<f12>" . 'magit-blame-addition)
+  ("C-<f12>" . 'magit-log))
+
+;;; magit.el ends here

@@ -35,7 +35,7 @@ toggleStrutsKey XConfig { modMask = modMask } = (modMask, xK_b)
 
 myPP = xmobarPP {
     ppTitle = xmobarColor "#aaaaaa" "" -- . wrap "<fn=1><fc=#aaaaaa,#000000>\xe0b2</fc></fn> " " <fn=1><fc=#aaaaaa,#000000>\xe0b0</fc></fn>"
-  , ppSep = " <fc=#000000>\x2503</fc> "
+  , ppSep = " <fc=#080808><fn=1>│</fn></fc> "
   , ppCurrent = \w -> xmobarColor "#ee3" "" ("[" ++ w ++ "]")
   , ppVisible = \w -> xmobarColor "#7f7" "" ("(" ++ w ++ ")")
   , ppHidden = \w -> xmobarColor "#888" "" w

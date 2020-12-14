@@ -2,6 +2,9 @@
 
 Config {
     font = "xft:DejaVu Sans Mono:size=11:antialias=true"
+  , additionalFonts =
+    [ "xft:DejaVu Sans Mono:size=14:antialias=true"
+    ]
   , textOffset = 19  -- 17 on secondary machine
   , bgColor = "#222222"
   , fgColor = "grey"
@@ -27,15 +30,15 @@ Config {
   , sepChar = "%"
   , alignSep = "}{"
   , template = " <fc=#888888>%parisWdate%</fc>\
-               \ <fc=black>┃</fc> <fc=#888888>%parisTime%</fc>\
-               \ <fc=black>┃</fc> %StdinReader%}{\
-               \ <fc=black>┃</fc> %wlan0% (%network-latency%)\
-               \ <fc=black>┃</fc> %top%\
-               \ <fc=black>┃</fc> <fc=#666666><icon=.xmobar/gpu.xbm/></fc> %xmb-gpu-util%\
-               \ <fc=black>┃</fc> <fc=#666666><icon=.xmobar/gpu.xbm/></fc> %xmb-gpu-mem%\
-               \ <fc=black>┃</fc> %cpu%\
-               \ <fc=black>┃</fc> %memory%\
-               \ <fc=black>┃</fc> %swap%\
-               \ <fc=black>┃</fc> %disku%\
-               \ <fc=black>┃</fc> <fc=#666666><icon=.xmobar/monitoring.xbm/></fc> %zabbix-status% "
+               \ <fc=#080808><fn=1>│</fn></fc> <fc=#888888>%parisTime%</fc>\
+               \ <fc=#080808><fn=1>│</fn></fc> %StdinReader%}{\
+               \ <fc=#080808><fn=1>│</fn></fc> %wlan0% (%network-latency%)\
+               \ <fc=#080808><fn=1>│</fn></fc> %top%\
+               \ <fc=#080808><fn=1>│</fn></fc> <fc=#666666><icon=.xmobar/gpu.xbm/></fc> %xmb-gpu-util%\
+               \ <fc=#080808><fn=1>│</fn></fc> <fc=#666666><icon=.xmobar/gpu.xbm/></fc> %xmb-gpu-mem%\
+               \ <fc=#080808><fn=1>│</fn></fc> %cpu%\
+               \ <fc=#080808><fn=1>│</fn></fc> %memory%\
+               \ <fc=#080808><fn=1>│</fn></fc> %swap%\
+               \ <fc=#080808><fn=1>│</fn></fc> %disku%\
+               \ <fc=#080808><fn=1>│</fn></fc> <fc=#666666><icon=.xmobar/monitoring.xbm/></fc> %zabbix-status% "
 }

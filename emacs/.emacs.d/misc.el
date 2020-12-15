@@ -27,7 +27,7 @@
   :config
   (ido-mode)
   :custom
-  (ido-show-dot-for-dired t))
+  (ido-enable-flex-matching t))
 
 (use-package buffer-move
   :ensure

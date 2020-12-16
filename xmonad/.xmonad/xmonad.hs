@@ -10,6 +10,10 @@
 -- cabal install xmobar -fwith_xft -fwith_datezone
 --
 -- If something goes wrong, try to do cleanup in ~/.ghc and ~/.cabal.
+--
+-- If XMonad is not found, try something like:
+-- $ mkdir -p ~/.ghc/x86_64-linux-8.8.3/
+-- $ ln -s ~/.cabal/store/ghc-8.8.3/package.db ~/.ghc/x86_64-linux-8.8.3/package.conf.d
 
 import Data.Bits
 import qualified Data.List as L

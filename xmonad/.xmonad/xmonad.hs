@@ -80,7 +80,7 @@ myKeys XConfig { modMask = modm } = M.fromList $
     , ((mod3Mask, xK_l), safeSpawn "urxvt" ["-e", "clisp"])
     , ((mod3Mask .|. shiftMask, xK_l), safeSpawn "urxvt" ["-e", "lua5.3"])
     , ((mod3Mask, xK_p), safeSpawn "urxvt" ["-e", "/home/fred/py3/bin/python3"])
-    , ((mod3Mask .|. shiftMask, xK_p), safeSpawn "urxvt" ["-e", "python2"])
+    , ((mod3Mask .|. shiftMask, xK_p), safeSpawn "urxvt" ["-e", "/home/fred/py2/bin/python2"])
     , ((mod3Mask, xK_slash), safeSpawn "killall" ["-CONT", "blender27"])
     , ((mod3Mask .|. shiftMask, xK_slash), safeSpawn "killall" ["-STOP", "blender27"])
 

@@ -9,25 +9,28 @@
 (require 'dired)
 (require 'cc-vars)
 
-;; Not convinced. Plus things such as M-x p-l-p ENTER does nothing because nothing match.
+(use-package htmlize
+  :ensure t)
 
-;; (use-package selectrum
-;;   :ensure t
-;;   :init
-;;   (selectrum-mode +1))
+(use-package paredit
+  :ensure t)
 
-;; (use-package selectrum-prescient
-;;   :ensure t
-;;   :init
-;;   (selectrum-prescient-mode +1)
-;;   (prescient-persist-mode +1))
+(use-package evil
+  :ensure t)
+
+(use-package elfeed
+  :ensure t
+  :bind
+  ("C-x w" . elfeed))
 
 (use-package ido
   :ensure t
   :config
   (ido-mode)
   :custom
-  (ido-enable-flex-matching t))
+  (ido-enable-flex-matching t)
+  ;; Does not seem to have any effects.
+  (ido-create-new-buffer 'always))
 
 (use-package buffer-move
   :ensure
@@ -90,7 +93,7 @@
 (setq sentence-end-double-space nil)
 
 ;;; Let Dired picks the other dired window as target
-(setq dired-dwim-target t)
+(setq-default dired-dwim-target t)
 
 (defun tuxee-move-line-up ()
   "Move the current line above the previous one."

@@ -4,7 +4,26 @@
 ;;; Code:
 
 (use-package org
-  :ensure t)
+  :ensure t
+  :bind
+  ("C-c c" . org-capture)
+  ("C-c l" . org-store-link)
+  ("C-c a" . org-agenda)
+  :custom
+  (org-support-shift-select t)
+  (org-refile-use-outline-path t)
+  (org-refile-targets '((nil :maxlevel . 9)
+                        (org-agenda-files :maxlevel . 1)
+                        (org-buffer-list :maxlevel . 1)))
+  (org-capture-templates
+   '(("t" "ToDo" entry (file "~/org/home/private/todo.org")
+      "\n* TODO %?\n%U\n")
+     ("j" "Journal" entry (file "~/org/home/private/journal.org")
+      "\n* %?\n%U\n")
+     ("p" "Refile (Private)" entry (file "~/org/home/private/refile.org")
+      "\n* %?\n%U\n")
+     ("r" "Refile (Public)" entry (file "~/org/home/public/refile.org")
+      "\n* %?\n%U\n"))))
 
 (use-package org-download
   :ensure t

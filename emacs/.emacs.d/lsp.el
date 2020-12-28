@@ -18,11 +18,6 @@
 
   :bind
   ("C-." . 'lsp-find-references)
-  ("C-c r" . 'lsp-rename)
-
-  :config
-  (defun tuxee-flycheck-setup ()
-    (flycheck-add-next-checker 'lsp 'javascript-eslint))
-  (add-hook 'lsp-mode-hook 'tuxee-flycheck-setup))
+  ("C-c r" . 'lsp-rename))
 
 ;;; lsp.el ends here

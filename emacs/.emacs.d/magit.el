@@ -4,6 +4,7 @@
 ;;; Code:
 
 (require 'color)
+(require 'cl-lib)
 
 (defun tuxee-color-from-git-hash (value style &optional lightness)
   (let* ((h value)
@@ -47,8 +48,8 @@
                                                         (string-to-number (substring dt 8 10))
                                                         (string-to-number (substring dt 5 7))
                                                         (string-to-number (substring dt 0 4))))))
-           (hash (substring rev 0 6))
-           (initials (tuxee-git-initial (cdr (assoc "author" revinfo))))
+           (hash (if empty "      " (substring rev 0 6)))
+           (initials (if empty "  " (tuxee-git-initial (cdr (assoc "author" revinfo)))))
            (value (if (eq mode 'author)
                       (/ (% (* 17 (sxhash-equal initials)) 255) 255.0)
                     (/ (string-to-number (substring hash 0 4) 16) 65535.0)))
@@ -83,11 +84,10 @@
 
   :config
   (advice-add 'magit-blame--format-string-1 :around 'tuxee-magit-blame-format-string-1-advice)
-  (setq magit-blame-styles
-        '((tuxee-by-commit (margin-width . 20)
-                           (margin-format "{tuxee}" "{tuxee!}"))
-          (tuxee-by-author (margin-width . 20)
-                           (margin-format "{tuxee-author}" "{tuxee-author!}"))))
+  (setq magit-blame-styles '((tuxee-test (margin-width . 20) (margin-format "{tuxee}" "{tuxee!}"))
+                           (tuxee-time (margin-width . 16) (margin-format "%A%f"))
+                           (tuxee-hash (margin-width . 16) (margin-format "%H%f"))
+                           (tuxee-author (margin-width . 16) (margin-format "%a%f"))))
 
   :bind
   ("<f12>" . 'magit-blame-addition)

@@ -6,6 +6,6 @@
 (use-package flycheck
   :ensure t
   :hook
-  (after-init . global-flycheck-mode))
+  (prog-mode . global-flycheck-mode))
 
 ;;; flycheck.el ends here

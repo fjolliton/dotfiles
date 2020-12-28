@@ -3,6 +3,10 @@
 ;;; (no comment)
 ;;; Code:
 
+;;; Temporary set a higher limit on GC threshold
+;;; This speeds up Emacs startup a bit.
+(setq gc-cons-threshold (max 50000000 gc-cons-threshold))
+
 ;;; FIXME: Move somewhere else to stay generic.
 (defvar tuxee-profile
   (if (string-match "\.tuxee\.net$" (system-name)) 'home 'work)

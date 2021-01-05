@@ -56,7 +56,7 @@
 
 (org-babel-do-load-languages
    'org-babel-load-languages
-   '((python . t)))
+   '((python . t) (latex . t) (dot . t)))
 
 (setq-default org-babel-python-command "/home/fred/py3/bin/python3")
 (setq-default org-startup-with-inline-images t)

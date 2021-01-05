@@ -2,7 +2,7 @@
 /emacs/.emacs.d/gnus-personal.el
 /emacs/.emacs.d/mail-personal.el
 
-# Emacs is going to put files there when installing packages
+# Files and directories handled by Emacs itself
 /emacs/.emacs.d/auto-save-list/
 /emacs/.emacs.d/elpa/
 /emacs/.emacs.d/network-security.data
@@ -12,6 +12,7 @@
 /emacs/.emacs.d/projectile-bookmarks.eld
 /emacs/.emacs.d/ido.last
 /emacs/.emacs.d/org-roam.db
+/emacs/.emacs.d/custom.el
 
 # Emacs backup files
 *~

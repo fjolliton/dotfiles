@@ -9,6 +9,10 @@
   ("C-c c" . org-capture)
   ("C-c l" . org-store-link)
   ("C-c a" . org-agenda)
+  :config
+  (setq org-format-latex-options
+        (plist-put (plist-put org-format-latex-options :scale 2.0)
+                   :background "Transparent"))
   :custom
   (org-support-shift-select t)
   (org-refile-use-outline-path t)

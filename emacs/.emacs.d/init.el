@@ -27,5 +27,6 @@
 (dolist (file tuxee-files)
   (load (concat user-emacs-directory file)))
 
-;;; init.el ends here
 (put 'scroll-left 'disabled nil)
+
+;;; init.el ends here

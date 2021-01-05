@@ -22,6 +22,7 @@
   (lsp-signature-doc-lines 1)
   (lsp-ui-doc-enable nil)
   (lsp-ui-sideline-enable nil)
+  (lsp-completion-provider :capf)
   (lsp-idle-delay 0.25)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))

@@ -13,6 +13,7 @@ alias gba="git branch -avv"
 alias glg="git log --graph --oneline --boundary --cherry-mark --pretty=format:'%C(yellow)%h%Creset%C(auto)%d%Creset %s %C(bold black)[%an]%Creset'"
 alias gcb="git checkout -b"
 alias grs="git rebase -i --autosquash"
+alias grc="git rebase --continue"
 alias grv="git remote -v"
 alias gfp='git fetch --tags -p --all'
 

@@ -5,6 +5,9 @@
 
 ;;; Other things that should probably be categorized.
 
+;;; For faster LSP (remove once lsp do it itself properly)
+(setq read-process-output-max (* 1024 1024))
+
 (require 'whitespace)
 (require 'dired)
 (require 'cc-vars)

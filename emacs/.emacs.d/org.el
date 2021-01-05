@@ -20,14 +20,14 @@
                         (org-agenda-files :maxlevel . 1)
                         (org-buffer-list :maxlevel . 1)))
   (org-capture-templates
-   '(("t" "ToDo" entry (file "~/org/home/private/todo.org")
-      "\n* TODO %?\n%U\n")
-     ("j" "Journal" entry (file "~/org/home/private/journal.org")
-      "\n* %?\n%U\n")
-     ("p" "Refile (Private)" entry (file "~/org/home/private/refile.org")
-      "\n* %?\n%U\n")
-     ("r" "Refile (Public)" entry (file "~/org/home/public/refile.org")
-      "\n* %?\n%U\n"))))
+   '(("t" "ToDo" entry (file+headline "~/org/home/private/todo.org" "Tasks")
+      "\n* TODO %?\n%U\n" :empty-lines 1)
+     ("j" "Journal" entry (file "~/org/home/private/journal.org" )
+      "\n* %?\n%U\n" :empty-lines 1)
+     ("p" "Refile (Private)" entry (file+headline "~/org/home/private/refile.org" "Entries")
+      "\n* %?\n%U\n" :empty-lines 1)
+     ("r" "Refile (Public)" entry (file+headline "~/org/home/public/refile.org" "Entries")
+      "\n* %?\n%U\n" :empty-lines 1))))
 
 (use-package org-download
   :ensure t

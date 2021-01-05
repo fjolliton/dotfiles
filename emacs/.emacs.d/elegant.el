@@ -59,7 +59,7 @@ abused anyway)."
 
 (defface evil-face-state-visual nil "Evil State Visual" :group 'evil)
 
-(setq-default mode-line-format
+(setq-default header-line-format
   '((:eval
      (mode-line-render
       (format-mode-line
@@ -97,18 +97,23 @@ abused anyway)."
           ;            'local-map   mode-line-major-mode-keymap)
           prefix
           (or evil-info "")
-          " %b ")))
+          (if (and (boundp 'lsp-headerline--string) lsp-headerline--string)
+              lsp-headerline--string
+            " %b "))))
       (format-mode-line
        (list
         (propertize "(%m)" 'face 'nano-face-header-default)
         " "
-        (propertize "%4l:%02c" 'face `(:inherit face-faded))))))))
+        (propertize "%4l:%02c" 'face '(:inherit face-faded))))))))
 
-(setq-default header-line-format mode-line-format)
+;; (fj) I don't know why mode-line-format was first assigned, then
+;; header-line-format defined from it, and finally mode-line-format
+;; was set to an empty string.
+;(setq-default header-line-format mode-line-format)
 (setq-default mode-line-format '(""))
 
 (defvar tuxee-frame-padding
-  (if (string= (system-name) "mau.intra.tuxee.net") 17 24))
+  (if (string= (system-name) "mau.intra.tuxee.net") 17 22))
 
 (setq default-frame-alist
       `((vertical-scroll-bars . nil)

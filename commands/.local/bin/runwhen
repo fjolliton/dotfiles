@@ -4,34 +4,54 @@
 Run a process and restart it whenever one of the given files is changed.
 """
 
-__author__ = 'Frédéric Jolliton'
-__copyright__ = 'Copyright (c) 2018'
-__license__ = 'GNU General Public License v3'
+__author__ = "Frédéric Jolliton"
+__copyright__ = "Copyright (c) 2018"
+__license__ = "GNU General Public License v3"
 
 import os
-import sys
 import subprocess
 import traceback
 import shlex
 import time
 import argparse
-import shutil
+import fnmatch
 
 from pathlib import Path
 
 
-parser = argparse.ArgumentParser(description='Restart a process whenever a given file is changed')
-parser.add_argument('-t', '--terminate', action='store_true', help='Terminate the process if it is still running')
-parser.add_argument('-d', '--delay', type=float)
-parser.add_argument('-C', '--clear', action='store_true', help='Clear the terminal before updating')
-parser.add_argument('-R', '--reset', action='store_true', help='Reset the terminal before updating')
-parser.add_argument('-q', '--quiet', action='store_true', help='Suppress messages')
-parser.add_argument('-F', '--fancy', action='store_true', help='Fancy markers for begin and end')
-parser.add_argument('-i', '--replace', action='store_true', help='Replace {} with the first watched file')
-parser.add_argument('-s', '--simple', action='store_true', help='Simple mode. Equivalent to -FCqti')
-parser.add_argument('-w', '--watch', action='append')
-parser.add_argument('-W', '--watch-glob', action='append')
-parser.add_argument('command', nargs='*')
+parser = argparse.ArgumentParser(
+    description="Restart a process whenever a given file is changed"
+)
+parser.add_argument(
+    "-t",
+    "--terminate",
+    action="store_true",
+    help="Terminate the process if it is still running",
+)
+parser.add_argument("-d", "--delay", type=float)
+parser.add_argument(
+    "-C", "--clear", action="store_true", help="Clear the terminal before updating"
+)
+parser.add_argument(
+    "-R", "--reset", action="store_true", help="Reset the terminal before updating"
+)
+parser.add_argument("-q", "--quiet", action="store_true", help="Suppress messages")
+parser.add_argument(
+    "-F", "--fancy", action="store_true", help="Fancy markers for begin and end"
+)
+parser.add_argument(
+    "-i",
+    "--replace",
+    action="store_true",
+    help="Replace {} with the first watched file",
+)
+parser.add_argument(
+    "-s", "--simple", action="store_true", help="Simple mode. Equivalent to -FCqti"
+)
+parser.add_argument("-w", "--watch", action="append")
+parser.add_argument("-W", "--watch-glob", action="append")
+parser.add_argument("-X", "--exclude", action="append")
+parser.add_argument("command", nargs="*")
 
 
 def loop(ns):
@@ -44,35 +64,43 @@ def loop(ns):
 
     cmd = ns.command
     if ns.replace:
-        cmd = [ns.watch[0] if ns.watch and item == '{}' else item for item in cmd]
+        cmd = [ns.watch[0] if ns.watch and item == "{}" else item for item in cmd]
     last_start = None
+
     def start():
         nonlocal last_start
         while True:
             if not ns.quiet:
-                print(time.ctime(), 'Executing', ' '.join(map(shlex.quote, cmd)))
+                print(time.ctime(), "Executing", " ".join(map(shlex.quote, cmd)))
             last_start = time.time()
             try:
                 proc = subprocess.Popen(cmd)
                 if ns.fancy:
-                    print('\033[33m{}\033[0m'.format('--- Start [{}] ---'.format(proc.pid)))
+                    print(
+                        "\033[33m{}\033[0m".format(
+                            "--- Start [{}] ---".format(proc.pid)
+                        )
+                    )
                 return proc
-            except:
+            except Exception:
                 traceback.print_exc()
                 time.sleep(1)
 
     proc = None
-    retry = 0
 
     def process_terminated(proc):
         now = time.time()
         if ns.fancy:
-            print('\033[31m{}\033[0m'
-                  .format('--- End ({:.1f}s){} ---'
-                          .format(now-last_start,
-                                  '' if proc.returncode == 0 else ' [{}]'.format(proc.returncode))))
+            print(
+                "\033[31m{}\033[0m".format(
+                    "--- End ({:.1f}s){} ---".format(
+                        now - last_start,
+                        "" if proc.returncode == 0 else " [{}]".format(proc.returncode),
+                    )
+                )
+            )
         if not ns.quiet:
-            print(time.ctime(), 'Process exited ({})'.format(proc.returncode))
+            print(time.ctime(), "Process exited ({})".format(proc.returncode))
 
     lasts = None
 
@@ -81,7 +109,12 @@ def loop(ns):
     while True:
         currents = {}
         for pattern in ns.watch_glob or ():
-            for name in Path('.').glob(pattern):
+            for name in Path(".").glob(pattern):
+                if any(
+                    fnmatch.fnmatch(name, excludePattern)
+                    for excludePattern in ns.exclude
+                ):
+                    continue
                 name = str(name)
                 try:
                     currents[name] = os.stat(name).st_mtime
@@ -94,7 +127,7 @@ def loop(ns):
                 pass
         if not currents:
             if not witness_warning_printed:
-                print(time.ctime(), 'Witness files missing. Waiting for one.')
+                print(time.ctime(), "Witness files missing. Waiting for one.")
                 witness_warning_printed = True
             time.sleep(1)
             continue
@@ -103,28 +136,27 @@ def loop(ns):
 
         if currents != lasts:
             if ns.reset:
-                subprocess.call(['reset'])
+                subprocess.call(["reset"])
             elif ns.clear:
-                subprocess.call(['clear'])
+                subprocess.call(["clear"])
             if not ns.quiet:
-                print(time.ctime(), 'Change detected on', ns.watch)
+                print(time.ctime(), "Change detected on", ns.watch)
             if proc is not None:
                 if not ns.quiet:
-                    print(time.ctime(), 'Stopping the process')
+                    print(time.ctime(), "Stopping the process")
                 proc.terminate()
                 deadline = time.time() + 5
                 while time.time() <= deadline:
                     if proc.poll() is not None:
                         break
-                    time.sleep(.1)
+                    time.sleep(0.1)
                 if proc.poll() is None:
                     if not ns.quiet:
-                        print(time.ctime(), 'Still running. Killing it')
+                        print(time.ctime(), "Still running. Killing it")
                 proc.kill()
                 proc.communicate()
                 process_terminated(proc)
                 proc = None
-                retry = 1
                 if ns.delay is not None:
                     time.sleep(ns.delay)
             proc = start()
@@ -132,19 +164,20 @@ def loop(ns):
                 proc.communicate()
                 proc = None
             if not ns.quiet:
-                print(time.ctime(), 'Done.' if not ns.terminate else 'Running.')
+                print(time.ctime(), "Done." if not ns.terminate else "Running.")
         elif proc is not None:
             proc.poll()
             if proc.returncode is not None:
                 process_terminated(proc)
                 proc.communicate()
                 proc = None
-        time.sleep(.1)
+        time.sleep(0.1)
         lasts = currents
+
 
 def main():
     loop(parser.parse_args())
 
-if __name__ == '__main__':
-    main()
 
+if __name__ == "__main__":
+    main()

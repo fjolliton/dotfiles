@@ -18,7 +18,7 @@
 
 (use-package typescript-mode
   :ensure t
-  :mode "\\.tsx\\'"
+  :mode "\\.[jt]sx?\\'"
   :hook
   (typescript-mode . tuxee-flycheck-setup)
   (typescript-mode . lsp)

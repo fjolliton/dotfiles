@@ -88,6 +88,9 @@
 
 (setq whitespace-line-column 100)
 
+(require 'calendar)
+(setq calendar-week-start-day 1)
+
 ;;; XMonad doesn't support iconifying windows
 (when window-system
   (global-unset-key (kbd "C-z")))

@@ -9,3 +9,5 @@
 	auto = 0
 [include]
         path = ~/.gitconfig-local
+[pull]
+	ff = only

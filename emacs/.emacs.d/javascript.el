@@ -26,4 +26,7 @@
   :custom
   (typescript-auto-indent-flag nil))
 
+(use-package js-mode
+  :mode "\\.scad\\'")
+
 ;;; javascript.el ends here

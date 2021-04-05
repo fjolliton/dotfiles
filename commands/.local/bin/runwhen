@@ -30,6 +30,12 @@ parser.add_argument(
 )
 parser.add_argument("-d", "--delay", type=float)
 parser.add_argument(
+    "-A",
+    "--args",
+    action="store_true",
+    help="Add the command arguments to the watch list",
+)
+parser.add_argument(
     "-C", "--clear", action="store_true", help="Clear the terminal before updating"
 )
 parser.add_argument(
@@ -106,6 +112,12 @@ def loop(ns):
 
     witness_warning_printed = False
 
+    extra = []
+    for arg in cmd[1:][::-1]:
+        if arg.startswith("-"):
+            break
+        extra.append(arg)
+
     while True:
         currents = {}
         for pattern in ns.watch_glob or ():
@@ -121,6 +133,15 @@ def loop(ns):
                 except FileNotFoundError:
                     pass
         for name in ns.watch or ():
+            if name in currents:
+                continue
+            try:
+                currents[name] = os.stat(name).st_mtime
+            except FileNotFoundError:
+                pass
+        for name in extra:
+            if name in currents:
+                continue
             try:
                 currents[name] = os.stat(name).st_mtime
             except FileNotFoundError:

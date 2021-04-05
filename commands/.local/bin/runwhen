@@ -124,7 +124,7 @@ def loop(ns):
             for name in Path(".").glob(pattern):
                 if any(
                     fnmatch.fnmatch(name, excludePattern)
-                    for excludePattern in ns.exclude
+                    for excludePattern in ns.exclude or ()
                 ):
                     continue
                 name = str(name)

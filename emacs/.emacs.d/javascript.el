@@ -7,9 +7,6 @@
   "Extend EXEC-PATH for a Javascript buffer."
   (tuxee-smart-exec-path "node_modules" "node_modules/.bin"))
 
-(defun tuxee-flycheck-setup ()
-  (flycheck-add-next-checker 'lsp 'javascript-eslint))
-
 (use-package prettier-js
   :ensure t
   :hook
@@ -20,7 +17,6 @@
   :ensure t
   :mode "\\.[jt]sx?\\'"
   :hook
-  (typescript-mode . tuxee-flycheck-setup)
   (typescript-mode . lsp)
   (typescript-mode . tuxee-extend-exec-path-for-javascript)
   :custom

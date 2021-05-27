@@ -54,6 +54,9 @@
          (("C-c n i" . org-roam-insert))
          (("C-c n I" . org-roam-insert-immediate))))
 
+(use-package org-ql
+  :ensure t)
+
 (org-babel-do-load-languages
    'org-babel-load-languages
    '((python . t) (latex . t) (dot . t)))

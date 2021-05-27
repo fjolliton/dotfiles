@@ -15,16 +15,30 @@
 (use-package htmlize
   :ensure t)
 
+(use-package markdown-mode
+  :ensure t)
+
 (use-package paredit
   :ensure t)
 
 (use-package evil
   :ensure t)
 
+(use-package json-mode
+  :ensure t)
+
 (use-package elfeed
   :ensure t
   :bind
   ("C-x w" . elfeed))
+
+(use-package boogie-friends
+  :ensure t)
+
+(use-package graphviz-dot-mode
+  :ensure t
+  :custom
+  (graphviz-dot-indent-width 2))
 
 (use-package ido
   :ensure t
@@ -156,6 +170,18 @@
   (let ((mode (if global-display-line-numbers-mode 0 nil)))
     (global-display-line-numbers-mode mode)
     (global-hl-line-mode mode)))
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package ibuffer
+  :custom
+  (ibuffer-default-sorting-mode 'alphabetic)
+  :bind
+  ("C-x C-b" . 'ibuffer))
+
+(use-package glsl-mode
+  :ensure t)
 
 ;;; Extra bindings
 (global-set-key (kbd "<f6>") 'kill-this-buffer)

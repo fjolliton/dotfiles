@@ -26,6 +26,7 @@
   (lsp-idle-delay 0.25)
   (lsp-headerline-breadcrumb-enable nil)
   (lsp-headerline-breadcrumb-segments '(project path-up-to-project file symbols))
+  (lsp-pyls-plugins-mccabe-enabled nil)
 
   :hook
   (lsp-mode . tuxee-enable-lsp-breadcrumb)

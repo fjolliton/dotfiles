@@ -2,4 +2,6 @@
 
 # Create or attach to a tumx instance
 
-tmux -L "$1" attach || tmux -L "$1"
+[ $# -eq 1 ] || { echo "Usage: $(basename "$0") SESSION"; exit 1; }
+SESSION="$1"
+tmux new-session -A -t "$SESSION"

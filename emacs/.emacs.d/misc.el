@@ -206,6 +206,18 @@
 (use-package glsl-mode
   :ensure t)
 
+(defun tuxee-increase-selective-display ()
+  (interactive)
+  (set-selective-display
+   (if selective-display (+ selective-display 2) 2)))
+
+(defun tuxee-decrease-selective-display ()
+  (interactive)
+  (set-selective-display
+   (if (or (not selective-display) (<= selective-display 2))
+       nil
+     (- selective-display 2))))
+
 ;;; Extra bindings
 (global-set-key (kbd "<f6>") 'kill-this-buffer)
 (global-set-key (kbd "<f9>") 'tuxee-toggle-explicit-lines)
@@ -216,9 +228,11 @@
 (global-set-key (kbd "A-6") 'delete-indentation) ; Because M-6 (aka M-^) conflicts with XMonad
 (global-set-key (kbd "A-<f12>") 'tuxee-font-size-cycle)
 (global-set-key (kbd "A-<left>") 'tuxee-shift-left)
+(global-set-key (kbd "H-<left>") 'tuxee-decrease-selective-display)
 (global-set-key (kbd "A-M-<left>") 'previous-buffer)
 (global-set-key (kbd "A-<right>") 'tuxee-shift-right)
 (global-set-key (kbd "A-M-<right>") 'next-buffer)
+(global-set-key (kbd "H-<right>") 'tuxee-increase-selective-display)
 (global-set-key (kbd "A-<up>") 'tuxee-move-line-up)
 (global-set-key (kbd "A-<down>") 'tuxee-move-line-down)
 (global-set-key (kbd "A-<prior>") 'tuxee-increment-number-at-point)

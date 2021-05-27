@@ -67,7 +67,7 @@ class Monitor(NamedTuple):
 
 
 def configure(monitors):
-    args = ['xrandr', '--dpi', '192']
+    args = ['xrandr']
     offset = 0
     primary = True
     for m in monitors:

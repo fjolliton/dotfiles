@@ -39,21 +39,6 @@
         (("s-Y" . org-download-screenshot)
          ("s-y" . org-download-yank))))
 
-;;; Usefulness?
-;;; Seems that the entire concept is just adding links between org
-;;; files. Let's see over time if it worst keeping it.
-(use-package org-roam
-  :ensure t
-  :hook
-  (after-init . org-roam-mode)
-  :bind (:map org-roam-mode-map
-         (("C-c n l" . org-roam)
-          ("C-c n f" . org-roam-find-file)
-          ("C-c n g" . org-roam-graph))
-         :map org-mode-map
-         (("C-c n i" . org-roam-insert))
-         (("C-c n I" . org-roam-insert-immediate))))
-
 (use-package org-ql
   :ensure t)
 

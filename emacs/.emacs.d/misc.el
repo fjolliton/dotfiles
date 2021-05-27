@@ -74,7 +74,7 @@
   :config
   (yas-global-mode)
   (defun tuxee-capitalize-first-char (text)
-    (concat (upcase (subseq text 0 1)) (subseq text 1))))
+    (concat (upcase (substring text 0 1)) (substring text 1))))
 
 (use-package yasnippet-snippets
   :ensure t)

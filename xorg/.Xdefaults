@@ -30,6 +30,7 @@ urxvt.keysym.C-Prior:  font-size:large
 
 urxvt*font:\
   xft:Inconsolata:pixelsize=21,\
+  xft:Symbola:pixelsize=20,\
   xft:Fixed
 
 ! Styles

@@ -22,6 +22,10 @@
 (setq show-trailing-whitespace t)
 (setq-default cursor-type '(bar . 4))
 
+;;; https://dn-works.com/ufas/
+;;; https://github.com/gearit/ttf-symbola
+(set-fontset-font t nil (font-spec :name "Symbola"))
+
 ;(setq frame-resize-pixelwise nil)
 
 (defun tuxee-update-cursor-style ()

@@ -169,6 +169,31 @@
     (global-display-line-numbers-mode mode)
     (global-hl-line-mode mode)))
 
+;;; Inspired by https://www.emacswiki.org/emacs/IncrementNumber
+;;; Limitiations: doesn't work for negative number yet
+(defun tuxee-update-number-at-point (amount)
+  "Update the number at point with AMOUNT."
+  (let ((pos (point)))
+    (backward-char 1)
+    (if (search-forward-regexp "[0-9]" nil t)
+        (progn
+          (looking-at "[0-9]+")
+          (let ((num (string-to-number (match-string 0))))
+            (replace-match (number-to-string (+ num amount)))))
+      (progn
+        (goto-char pos)
+        (error "No number found")))))
+
+(defun tuxee-increment-number-at-point ()
+  "Increment the number at point."
+  (interactive)
+  (tuxee-update-number-at-point 1))
+
+(defun tuxee-decrement-number-at-point ()
+  "Decrement the number at point."
+  (interactive)
+  (tuxee-update-number-at-point -1))
+
 (use-package yaml-mode
   :ensure t)
 
@@ -196,6 +221,8 @@
 (global-set-key (kbd "A-M-<right>") 'next-buffer)
 (global-set-key (kbd "A-<up>") 'tuxee-move-line-up)
 (global-set-key (kbd "A-<down>") 'tuxee-move-line-down)
+(global-set-key (kbd "A-<prior>") 'tuxee-increment-number-at-point)
+(global-set-key (kbd "A-<next>") 'tuxee-decrement-number-at-point)
 (global-set-key (kbd "C-<return>") 'tuxee-toggle-selective-display)
 (global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "C-c C-a") 'align-regexp)

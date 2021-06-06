@@ -35,4 +35,7 @@
   ("C-." . 'lsp-find-references)
   ("C-c r" . 'lsp-rename))
 
+(use-package lsp-ui
+  :ensure t)
+
 ;;; lsp.el ends here

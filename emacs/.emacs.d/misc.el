@@ -12,6 +12,8 @@
 (require 'dired)
 (require 'cc-vars)
 
+(use-package dired-x)
+
 (use-package htmlize
   :ensure t)
 

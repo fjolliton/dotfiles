@@ -162,7 +162,11 @@ def loop(ns):
             elif ns.clear:
                 subprocess.call(["clear"])
             if not ns.quiet and lasts is not None:
-                diffs = [name for name in set(currents) | set(lasts) if currents.get(name) != lasts.get(name)]
+                diffs = [
+                    name
+                    for name in set(currents) | set(lasts)
+                    if currents.get(name) != lasts.get(name)
+                ]
                 print(time.ctime(), "Change detected on", diffs)
             if proc is not None:
                 if not ns.quiet:

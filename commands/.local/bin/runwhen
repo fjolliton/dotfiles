@@ -113,10 +113,11 @@ def loop(ns):
     witness_warning_printed = False
 
     extra = []
-    for arg in cmd[1:][::-1]:
-        if arg.startswith("-"):
-            break
-        extra.append(arg)
+    if ns.args:
+        for arg in cmd[1:][::-1]:
+            if arg.startswith("-"):
+                break
+            extra.append(arg)
 
     while True:
         currents = {}

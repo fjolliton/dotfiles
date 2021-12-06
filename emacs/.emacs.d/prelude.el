@@ -7,6 +7,8 @@
 ;;; This speeds up Emacs startup a bit.
 (setq gc-cons-threshold (max 50000000 gc-cons-threshold))
 
+(setq package-native-compile t)
+
 ;;; FIXME: Move somewhere else to stay generic.
 (defvar tuxee-profile
   (if (string-match "\.tuxee\.net$" (system-name)) 'home 'work)

@@ -14,6 +14,7 @@
 
 (advice-add 'lsp-headerline-breadcrumb-mode :around #'tuxee-lsp-breadcrum-advice)
 
+(setq lsp-eslint-package-manager "yarn")
 (use-package lsp-mode
   :ensure t
 
@@ -24,16 +25,20 @@
   (lsp-enable-snippet nil)
   (lsp-signature-auto-activate t)
   (lsp-signature-doc-lines 1)
-  (lsp-ui-doc-enable nil)
-  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-enable t)
   (lsp-completion-provider :capf)
   (lsp-idle-delay 0.25)
   (lsp-headerline-breadcrumb-segments '(project path-up-to-project file))
-  (lsp-pyls-plugins-mccabe-enabled nil)
+  (lsp-pylsp-plugins-mccabe-enabled nil)
 
   :bind
   ("C-." . 'lsp-find-references)
-  ("C-c r" . 'lsp-rename))
+  ("C-c r" . 'lsp-rename)
+  ("C-c i" . 'lsp-ui-imenu))
+
+(lsp-register-custom-settings '(("pylsp.plugins.pyls_mypy.enabled" t t)
+                                ("pylsp.plugins.pyls_mypy.live_mode" nil t)
+                                ("pylsp.plugins.pydocstyle.enabled" nil t)))
 
 (use-package lsp-ui
   :ensure t)

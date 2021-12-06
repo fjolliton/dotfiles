@@ -8,6 +8,10 @@
   ;; This will revert the header change made when enabling the mode.
   (setq header-line-format (remove '(t (:eval lsp-headerline--string)) header-line-format)))
 
+(require 'lsp)
+(require 'lsp-ui)
+(require 'lsp-eslint)
+
 (advice-add 'lsp-headerline-breadcrumb-mode :around #'tuxee-lsp-breadcrum-advice)
 
 (use-package lsp-mode

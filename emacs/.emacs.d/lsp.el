@@ -3,12 +3,12 @@
 ;;; (no comment)
 ;;; Code:
 
-(defun tuxee-enable-lsp-breadcrumb ()
-  "Enable the LSP breadcrumb without changing the header line."
-  (interactive)
-  (lsp-headerline-breadcrumb-mode 1)
+(defun tuxee-lsp-breadcrum-advice (orig &rest args)
+  (apply orig args)
   ;; This will revert the header change made when enabling the mode.
   (setq header-line-format (remove '(t (:eval lsp-headerline--string)) header-line-format)))
+
+(advice-add 'lsp-headerline-breadcrumb-mode :around #'tuxee-lsp-breadcrum-advice)
 
 (use-package lsp-mode
   :ensure t
@@ -24,12 +24,8 @@
   (lsp-ui-sideline-enable nil)
   (lsp-completion-provider :capf)
   (lsp-idle-delay 0.25)
-  (lsp-headerline-breadcrumb-enable nil)
   (lsp-headerline-breadcrumb-segments '(project path-up-to-project file))
   (lsp-pyls-plugins-mccabe-enabled nil)
-
-  :hook
-  (lsp-mode . tuxee-enable-lsp-breadcrumb)
 
   :bind
   ("C-." . 'lsp-find-references)
